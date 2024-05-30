@@ -10,7 +10,7 @@ export default function Header() {
         <div className="w-full p-3">
           <h1 className="text-5xl font-bold mb-10">Turn Your Ideas into Reality with IdeaTracker+</h1>
           <p className="text-xl mb-10">Track your ideas effortlessly and let OpenAI help you expand them into actionable plans.</p>
-          <Link className="bg-blue-500 hover:bg-blue-700 text-white font-bold text-2xl py-2 px-4 rounded" href="#signup">
+          <Link  className="bg-blue-500 hover:bg-blue-700 text-white font-bold text-2xl py-2 px-4 rounded" href="/register">
             Start Now
           </Link>
         </div>

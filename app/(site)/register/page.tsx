@@ -2,6 +2,7 @@
 import React, { ChangeEvent, FormEvent, useState, useRef } from 'react'
 import axios from 'axios';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 export default function Page() {
   const [formData, setFormData] = useState({
@@ -21,7 +22,6 @@ export default function Page() {
     e.preventDefault();
     
     await axios.post('/api/reg', {formData}).then((res: any) => {
-      console.log(res?.data);
       if(res?.data.status === 201){
         setFormData({ name: '', email: '', password: '' });  // Reset the state
         ref?.current?.reset();  // Reset the form
@@ -36,10 +36,11 @@ export default function Page() {
 
 
   return (
-    <div className="bg-gray-100 py-12">
-    <div className="container mx-auto px-4">
-      <h2 className="text-3xl font-semibold text-center mb-8">Register</h2>
-      <form ref={ref} onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-8 shadow-lg rounded-lg">
+    <div className=" bg-gradient-to-br from-slate-950 via-slate-800 to-slate-950 w-full h-screen flex flex-col justify-start items-center ">
+      <Link className='text-xl hover:underline hover:underline-offset-[4px] p-2 lg:mb-20 mb-10 w-full self-end text-white' href='/'>Home</Link>
+    <div className="w-full px-4">
+      <h2 className="text-6xl font-medium tracking-wider text-white text-center mb-8">Register</h2>
+      <form ref={ref} onSubmit={handleSubmit} className="max-w-xl mx-auto bg-white p-8 shadow-lg rounded-lg">
         <div className="mb-6">
           <label htmlFor="name" className="block text-gray-700 font-bold mb-2">Name</label>
           <input
@@ -48,7 +49,7 @@ export default function Page() {
             name="name"
             value={formData.name}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-600"
             placeholder="Your Name"
             required
           />
@@ -61,7 +62,7 @@ export default function Page() {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-600"
             placeholder="Your Email"
             required
           />
@@ -74,7 +75,7 @@ export default function Page() {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-600"
             placeholder="Your Password"
             required
           />
@@ -82,7 +83,7 @@ export default function Page() {
         <div className="text-center">
           <button
             type="submit"
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+            className="bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
           >
             Register
           </button>

@@ -4,7 +4,7 @@ import Signing from './signing'
 
 export default function Nav() {
   return (
-    <nav className=" absolute  w-full top-0 left-0 p-2 flex justify-between items-center py-6">
+    <nav className=" absolute  w-full top-0 left-0 p-3 flex justify-between items-center py-6">
         <div className="text-4xl text-white tracking-wide font-bold">IdeaTracker+</div>
         <ul className="flex space-x-8">
           <li><Link className="text-gray-100 text-xl" href="#features">Features</Link></li>

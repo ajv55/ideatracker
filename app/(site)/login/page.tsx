@@ -3,6 +3,7 @@ import { ChangeEvent, FormEvent, useRef, useState } from "react";
 import {signIn, useSession} from 'next-auth/react'
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Page() {
   const [data, setFormData] = useState({
@@ -39,7 +40,8 @@ export default function Page() {
   };
 
   return (
-    <div className="w-full h-screen bg-gradient-to-br flex justify-center items-center from-slate-950 via-slate-800 to-slate-950 py-12">
+    <div className="w-full h-screen bg-gradient-to-br flex flex-col justify-start items-center from-slate-950 via-slate-800 to-slate-950 ">
+      <Link className='text-xl hover:underline hover:underline-offset-[4px] p-2 lg:mb-20 mb-10 w-full self-end text-white' href='/'>Home</Link>
       <div className="w-[64%] px-4">
         <h2 className="text-7xl text-white tracking-wider font-medium text-center mb-8">Login</h2>
         <form onSubmit={handleSubmit} className="max-w-xl mx-auto flex justify-center items-center flex-col bg-white h-[23rem] p-8 shadow-lg rounded-lg">

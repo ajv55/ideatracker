@@ -7,7 +7,7 @@ export default function Action() {
         <h2 className="text-6xl font-bold mb-8">Ready to Bring Your Ideas to Life?</h2>
         <p className="text-2xl mb-10">Sign up now and start transforming your ideas into reality with the help of OpenAI.</p>
         <Link
-        href="#signup-form"
+        href="/register"
         className="inline-block bg-white text-blue-600 font-semibold py-3 px-6 rounded-full transition duration-300 ease-in-out hover:bg-blue-500 text-2xl hover:text-white"
         >
         Get Started for Free
