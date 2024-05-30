@@ -3,6 +3,8 @@ import React, { ChangeEvent, FormEvent, useState, useRef } from 'react'
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import { useRouter } from "next/navigation";
+
 
 export default function Page() {
   const [formData, setFormData] = useState({
@@ -12,6 +14,7 @@ export default function Page() {
   });
 
   const ref = useRef<HTMLFormElement>(null);
+  const router = useRouter();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -25,6 +28,7 @@ export default function Page() {
       if(res?.data.status === 201){
         setFormData({ name: '', email: '', password: '' });  // Reset the state
         ref?.current?.reset();  // Reset the form
+        router.push('/login')
         return toast.success(`You've successfully registered`)
       }
       if(res?.data.status === 401){

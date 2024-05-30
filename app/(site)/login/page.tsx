@@ -11,9 +11,10 @@ export default function Page() {
     password: ''
   });
 
-  const router = useRouter();
+ 
 
     const ref = useRef<HTMLFormElement>(null);
+    const router = useRouter();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -30,7 +31,7 @@ export default function Page() {
           }
 
           if(callback?.ok && !callback?.error) {
-              router.push('/')
+              router.push('/dashboard')
               toast.success('you have successfully logged in')
           }
       })

@@ -9,7 +9,6 @@ export default function Nav() {
         <ul className="flex space-x-8">
           <li><Link className="text-gray-100 text-xl" href="#features">Features</Link></li>
           <li><Link className="text-gray-100 text-xl" href="#how-it-works">How It Works</Link></li>
-          <li><Link className="text-gray-100 text-xl" href="#testimonials">Testimonials</Link></li>
           <li><Link className="text-gray-100 text-xl" href="#contact">Contact</Link></li>
         </ul>
         <Signing />
