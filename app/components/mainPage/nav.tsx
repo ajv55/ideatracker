@@ -1,8 +1,13 @@
+'use client';
 import Link from 'next/link'
 import React from 'react'
 import Signing from './signing'
+import { useSession } from 'next-auth/react';
 
 export default function Nav() {
+
+  const {data: session } = useSession();
+
   return (
     <nav className=" absolute  w-full top-0 left-0 p-3 flex justify-between items-center py-6">
         <div className="text-4xl text-white tracking-wide font-bold">IdeaTracker+</div>
@@ -10,6 +15,7 @@ export default function Nav() {
           <li><Link className="text-gray-100 text-xl" href="#features">Features</Link></li>
           <li><Link className="text-gray-100 text-xl" href="#how-it-works">How It Works</Link></li>
           <li><Link className="text-gray-100 text-xl" href="#contact">Contact</Link></li>
+          {session && <li><Link className="text-gray-100 text-xl" href="/dashboard">Dashboard</Link></li>}
         </ul>
         <Signing />
       </nav>
