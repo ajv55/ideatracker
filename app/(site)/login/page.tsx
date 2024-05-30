@@ -39,24 +39,24 @@ export default function Page() {
   };
 
   return (
-    <div className="bg-gray-100 py-12">
-      <div className="container mx-auto px-4">
-        <h2 className="text-3xl font-semibold text-center mb-8">Login</h2>
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-8 shadow-lg rounded-lg">
-          <div className="mb-6">
-            <label htmlFor="email" className="block text-gray-700 font-bold mb-2">Email</label>
+    <div className="w-full h-screen bg-gradient-to-br flex justify-center items-center from-slate-950 via-slate-800 to-slate-950 py-12">
+      <div className="w-[64%] px-4">
+        <h2 className="text-7xl text-white tracking-wider font-medium text-center mb-8">Login</h2>
+        <form onSubmit={handleSubmit} className="max-w-xl mx-auto flex justify-center items-center flex-col bg-white h-[23rem] p-8 shadow-lg rounded-lg">
+          <div className="mb-6 w-full">
+            <label htmlFor="email" className="block text-gray-700  font-bold mb-2">Email</label>
             <input
               type="email"
               id="email"
               name="email"
               value={data.email}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full px-4 py-2 border rounded-lg  text-lg focus:outline-none focus:ring-2 focus:ring-cyan-600"
               placeholder="Your Email"
               required
             />
           </div>
-          <div className="mb-6">
+          <div className="mb-6 w-full">
             <label htmlFor="password" className="block text-gray-700 font-bold mb-2">Password</label>
             <input
               type="password"
@@ -64,7 +64,7 @@ export default function Page() {
               name="password"
               value={data.password}
               onChange={handleChange}
-              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full px-4 py-2 border rounded-lg text-lg focus:outline-none focus:ring-2 focus:ring-cyan-600"
               placeholder="Your Password"
               required
             />
@@ -72,7 +72,7 @@ export default function Page() {
           <div className="text-center">
             <button
               type="submit"
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="bg-cyan-600 text-xl text-white px-4 py-2 rounded-lg hover:bg-cyan-800 drop-shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-600"
             >
               Register
             </button>
