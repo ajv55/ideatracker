@@ -5,7 +5,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 import { AnimatePresence, motion } from 'framer-motion';
 import {  useSelector, useDispatch } from 'react-redux';
-import { setIsIdeaOpen } from '@/app/slices/ideaSlice';
+import { setIsIdeaOpen,setIdeasList } from '@/app/slices/ideaSlice';
 import { RootState } from '@/app/store';
 
 type IdeaSubmissionProps = {
@@ -31,7 +31,11 @@ export default function IdeaSubmission({onClick}: IdeaSubmissionProps) {
   };
 
   const getIdeas = async () => {
-    await axios.get('/api/getAll')
+    await axios.get('/api/getAll').then((res: any) => {
+      if(res.status === 201) {
+        dispatch(setIdeasList(res?.data))
+      }
+    })
   }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -47,6 +51,7 @@ export default function IdeaSubmission({onClick}: IdeaSubmissionProps) {
             tags: ''
           });
           dispatch(setIsIdeaOpen(false));
+          getIdeas();
         };
 
         if(res?.data?.status === 401) {

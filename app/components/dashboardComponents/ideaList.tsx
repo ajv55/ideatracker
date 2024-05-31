@@ -6,8 +6,9 @@ import IdeaSubmission from './submission';
 import axios from 'axios';
 import IdeaListSkeleton from '../skeleton/ideaListSkeleton';
 import {  useSelector, useDispatch } from 'react-redux';
-import { setIsIdeaOpen } from '@/app/slices/ideaSlice';
+import { setIsIdeaOpen, setIdeasList } from '@/app/slices/ideaSlice';
 import { RootState } from '@/app/store';
+import toast from 'react-hot-toast';
 
 type Idea = {
   id: number;
@@ -20,13 +21,15 @@ type Idea = {
 
 
 const IdeaList: React.FC = () => {
-  const [ideas, setIdeas] = useState<Idea[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [filterStatus, setFilterStatus] = useState<'all' | 'OPEN' | 'IN_PROGRESS' | 'COMPLETED'>('all');
   const [sortKey, setSortKey] = useState<'title' | 'dateCreated'>('dateCreated');
   const open = useSelector((state: RootState) => state.idea.isIdeaOpen) ;
+  const ideasList = useSelector((state: RootState) => state.idea.ideasList)
   const dispatch = useDispatch();
  
+
+  console.log(ideasList)
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterStatus(e.target.value as 'all' | 'OPEN' | 'IN_PROGRESS' | 'COMPLETED');
   };
@@ -40,15 +43,29 @@ const IdeaList: React.FC = () => {
     console.log(`Edit idea with id: ${id}`);
   };
 
-  const handleDelete = (id: number) => {
-    setIdeas(prevIdeas => prevIdeas.filter(idea => idea.id !== id));
+  const handleDelete = async (id: number) => {
+    //handle delete from the backend
+    console.log(id)
+    try {
+      
+      await axios.delete(`/api/deleteIdea?ideaId=${id}`).then((res) => {
+        if(res.status === 201) {
+          toast.success(`You've deleted the idea`)
+          getAllIdeas();
+        }
+      });
+     
+
+    } catch (error) {
+      console.error('error occurred when trying to delete idea', error)
+    }
   };
 
    const getAllIdeas = async () => {
     setIsLoading(true)
     await axios.get('/api/getAll').then((res: any) => {
       if(res.status === 201){
-        setIdeas(res?.data)
+        dispatch(setIdeasList(res?.data))
       }
     }).finally(() => setIsLoading(false))
   }
@@ -58,8 +75,8 @@ const IdeaList: React.FC = () => {
   }, [])
 
 
-  const filteredIdeas = ideas.filter(idea => filterStatus === 'all' || idea.status === filterStatus);
-  const sortedIdeas = [...filteredIdeas].sort((a, b) => {
+  const filteredIdeas = ideasList?.filter(idea => filterStatus === 'all' || idea.status === filterStatus);
+  const sortedIdeas = [...filteredIdeas!].sort((a, b) => {
     if (sortKey === 'title') {
       return a?.title.localeCompare(b?.title);
     } else {
@@ -97,7 +114,7 @@ const IdeaList: React.FC = () => {
       <ul className="space-y-4">
         {sortedIdeas.length === 0 && !isLoading && <div className='w-full h-full flex justify-center items-center'><h1 className='text-3xl font-bold tracking-wide text-center'>No ideas created yet. 😭</h1></div>}
         {isLoading && <IdeaListSkeleton />}
-        {sortedIdeas.map(idea => (
+        {!isLoading && sortedIdeas.map(idea => (
           <li key={idea.id} className="bg-gray-50 p-4 rounded-lg shadow-sm flex justify-between items-center">
             <div>
               <h3 className="text-lg font-bold">{idea.title}</h3>
