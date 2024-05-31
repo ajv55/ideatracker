@@ -56,7 +56,8 @@ const IdeasByStatus: React.FC = () => {
   };
 
   return (
-    <div className="w-[55%] p-6">
+    <div className="w-[55%] relative p-6">
+        {ideas.length === 0 && <h1 className=' text-5xl absolute flex justify-center items-center z-30 bg-slate-100 rounded-2xl text-center text-balance shadow-lg shadow-zinc-900  w-[95%] h-full'>Add ideas to see analytics</h1>}
       <h2 className="text-3xl font-semibold mb-6">Ideas by Status</h2>
       <div className="bg-white p-6 rounded-lg shadow-lg shadow-zinc-900 mb-6">
         <Bar data={barData} />

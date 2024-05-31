@@ -4,6 +4,9 @@ import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { AnimatePresence, motion } from 'framer-motion';
+import {  useSelector, useDispatch } from 'react-redux';
+import { setIsIdeaOpen } from '@/app/slices/ideaSlice';
+import { RootState } from '@/app/store';
 
 type IdeaSubmissionProps = {
   onClick?: () => void;
@@ -18,11 +21,18 @@ export default function IdeaSubmission({onClick}: IdeaSubmissionProps) {
 
   });
   const router = useRouter();
+  const open = useSelector((state: RootState) => state.idea.isIdeaOpen) ;
+  const dispatch = useDispatch();
+
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+
+  const getIdeas = async () => {
+    await axios.get('/api/getAll')
+  }
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -35,7 +45,8 @@ export default function IdeaSubmission({onClick}: IdeaSubmissionProps) {
             description: '',
             category: '',
             tags: ''
-          })
+          });
+          dispatch(setIsIdeaOpen(false));
         };
 
         if(res?.data?.status === 401) {

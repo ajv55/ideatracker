@@ -5,6 +5,9 @@ import { AnimatePresence } from 'framer-motion';
 import IdeaSubmission from './submission';
 import axios from 'axios';
 import IdeaListSkeleton from '../skeleton/ideaListSkeleton';
+import {  useSelector, useDispatch } from 'react-redux';
+import { setIsIdeaOpen } from '@/app/slices/ideaSlice';
+import { RootState } from '@/app/store';
 
 type Idea = {
   id: number;
@@ -21,7 +24,8 @@ const IdeaList: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [filterStatus, setFilterStatus] = useState<'all' | 'OPEN' | 'IN_PROGRESS' | 'COMPLETED'>('all');
   const [sortKey, setSortKey] = useState<'title' | 'dateCreated'>('dateCreated');
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const open = useSelector((state: RootState) => state.idea.isIdeaOpen) ;
+  const dispatch = useDispatch();
  
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterStatus(e.target.value as 'all' | 'OPEN' | 'IN_PROGRESS' | 'COMPLETED');
@@ -40,7 +44,7 @@ const IdeaList: React.FC = () => {
     setIdeas(prevIdeas => prevIdeas.filter(idea => idea.id !== id));
   };
 
-  const getAllIdeas = async () => {
+   const getAllIdeas = async () => {
     setIsLoading(true)
     await axios.get('/api/getAll').then((res: any) => {
       if(res.status === 201){
@@ -53,7 +57,6 @@ const IdeaList: React.FC = () => {
     getAllIdeas();
   }, [])
 
-  console.log(ideas)
 
   const filteredIdeas = ideas.filter(idea => filterStatus === 'all' || idea.status === filterStatus);
   const sortedIdeas = [...filteredIdeas].sort((a, b) => {
@@ -66,7 +69,7 @@ const IdeaList: React.FC = () => {
 
   return (
     <div className="bg-white w-[85%] p-6 rounded-lg shadow-zinc-900 shadow-md">
-      <AnimatePresence>{isOpen && <IdeaSubmission onClick={() => setIsOpen(false)} />}</AnimatePresence>
+      <AnimatePresence>{open && <IdeaSubmission onClick={() => dispatch(setIsIdeaOpen(false))} />}</AnimatePresence>
       <h2 className="text-2xl font-semibold mb-4">Your Ideas</h2>
       <div className="flex justify-between mb-4">
         <div className="flex space-x-4">
@@ -89,9 +92,10 @@ const IdeaList: React.FC = () => {
             <option value="title">Title</option>
           </select>
         </div>
-        <button onClick={() => setIsOpen(true)} className=" bg-gradient-to-bl from-teal-800 via-slate-800 to-teal-800 text-white px-4 py-2 rounded-lg">New Idea</button>
+        <button onClick={() => {dispatch(setIsIdeaOpen(true)); console.log(open)}} className=" bg-gradient-to-bl from-teal-800 via-slate-800 to-teal-800 text-white px-4 py-2 rounded-lg">New Idea</button>
       </div>
       <ul className="space-y-4">
+        {sortedIdeas.length === 0 && !isLoading && <div className='w-full h-full flex justify-center items-center'><h1 className='text-3xl font-bold tracking-wide text-center'>No ideas created yet. 😭</h1></div>}
         {isLoading && <IdeaListSkeleton />}
         {sortedIdeas.map(idea => (
           <li key={idea.id} className="bg-gray-50 p-4 rounded-lg shadow-sm flex justify-between items-center">

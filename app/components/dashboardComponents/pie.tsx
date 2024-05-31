@@ -55,13 +55,13 @@ const IdeaCategoryChart: React.FC = () => {
         data: Object.values(categoryCounts),
         backgroundColor: [
           '#091b6cd6', // Red
-          '#FBBF24', // Yellow
+          '#d05000', // Yellow
           '#34D399', // Green
           '#60A5FA', // Blue
           '#A78BFA', // Purple
           '#FB923C', // Orange
         ],
-        borderColor: '#3397f5',
+        borderColor: ['#3397f5', '#fcb55f', '#FBBF24',],
       },
     ],
   };
@@ -79,8 +79,9 @@ const IdeaCategoryChart: React.FC = () => {
   };
 
   return (
-    <div className="bg-white border w-[43%] h-[33rem] flex flex-col justify-start items-start p-5 rounded-lg shadow">
-      <h2 className="text-4xl font-semibold mb-4">Category Distribution</h2>
+    <div className="bg-white relative border w-[43%] h-[33rem] flex flex-col justify-start items-start p-5 rounded-lg shadow">
+      <h2 className="text-4xl  font-semibold mb-4">Category Distribution</h2>
+      {ideas.length === 0 && <h1 className=' text-5xl absolute flex justify-center items-center z-30 bg-slate-100 rounded-2xl text-center text-balance shadow-lg shadow-zinc-900  w-full h-full'>Add ideas to see analytics</h1>}
       <Pie className='p-12' options={options} data={data} />
     </div>
   );
