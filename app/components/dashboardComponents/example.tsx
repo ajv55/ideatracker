@@ -1,0 +1,93 @@
+'use client';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { Bar } from 'react-chartjs-2';
+import 'chart.js/auto';
+import {format} from 'date-fns';
+
+interface Idea {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  tags: string;
+  status: 'OPEN' | 'IN_PROGRESS' | 'COMPLETED';
+  createdAt: string;
+  updatedAt: string;
+  userId: string;
+}
+
+const IdeasByStatus: React.FC = () => {
+  const [ideas, setIdeas] = useState<Idea[]>([]);
+
+  const fetchIdeas = async () => {
+    try {
+      const response = await axios.get('/api/getAll'); // Update with your actual API endpoint
+      if (response.status === 201) {
+        setIdeas(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching ideas:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchIdeas();
+  }, []);
+
+  const statusCounts = ideas.reduce(
+    (acc, idea) => {
+      acc[idea.status]++;
+      return acc;
+    },
+    { OPEN: 0, IN_PROGRESS: 0, COMPLETED: 0 }
+  );
+
+  const barData = {
+    labels: ['Open', 'In Progress', 'Completed'],
+    datasets: [
+      {
+        label: 'Ideas by Status',
+        data: [statusCounts.OPEN, statusCounts.IN_PROGRESS, statusCounts.COMPLETED],
+        backgroundColor: ['#031f7dd0', '#60A5FA', '#34D399'],
+        borderColor: '#338ef5',
+      },
+    ],
+  };
+
+  return (
+    <div className="w-[55%] p-6">
+      <h2 className="text-3xl font-semibold mb-6">Ideas by Status</h2>
+      <div className="bg-white p-6 rounded-lg shadow-lg shadow-zinc-900 mb-6">
+        <Bar data={barData} />
+      </div>
+      <div className="w-full  ">
+        <div className="bg-white w-full p-6 rounded-lg shadow-zinc-900 shadow-lg">
+          <h3 className="text-2xl font-semibold mb-4">Detailed Status Table</h3>
+          <table className="w-full text-sm text-left rtl:text-right text-teal-500 dark:text-zinc-900">
+            <thead className='text-md text-gray-300 uppercase bg-gradient-to-bl from-slate-950 via-slate-800 to-slate-950  dark:text-white'>
+              <tr>
+                <th className="py-2 px-1">Title</th>
+                <th className="py-2 px-1">Description</th>
+                <th className="py-2 px-1">Category</th>
+                <th className="py-2 px-1">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ideas.map((idea) => (
+                <tr className='odd:bg-white text-white odd:dark:bg-gray-600 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700' key={idea.id}>
+                  <td className="border px-4 py-2">{idea.title}</td>
+                  <td className="border px-4 py-2">{idea.description}</td>
+                  <td className="border px-4 py-2">{idea.category}</td>
+                  <td className="border px-4 py-2">{idea.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default IdeasByStatus;

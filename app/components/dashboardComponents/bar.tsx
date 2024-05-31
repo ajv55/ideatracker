@@ -82,7 +82,7 @@ const IdeaChart: React.FC = () => {
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-lg">
+    <div className="bg-white w-[50%] h-[32rem] p-4 rounded-lg shadow-lg">
       <h2 className="text-4xl font-semibold mb-4">Ideas by Status</h2>
       <Bar data={data} options={options} />
     </div>

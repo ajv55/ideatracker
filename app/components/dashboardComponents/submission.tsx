@@ -94,7 +94,7 @@ export default function IdeaSubmission({onClick}: IdeaSubmissionProps) {
             <option value="Other">Other</option>
           </select>
         </div>
-        <div className="mb-4">
+        <div className="mb-4 ">
           <label htmlFor="tags" className="block text-gray-700 font-bold mb-2">Tags</label>
           <input
             type="text"
@@ -106,7 +106,7 @@ export default function IdeaSubmission({onClick}: IdeaSubmissionProps) {
             placeholder="Enter tags separated by commas"
           />
         </div>
-        <div className="text-center">
+        <div className="text-center flex justify-center items-center gap-3 w-full ">
         <button
            type='button'
            onClick={onClick}
