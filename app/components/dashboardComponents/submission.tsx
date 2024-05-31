@@ -2,8 +2,14 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
+import toast from 'react-hot-toast';
+import { AnimatePresence, motion } from 'framer-motion';
 
-export default function IdeaSubmission() {
+type IdeaSubmissionProps = {
+  onClick?: () => void;
+}
+
+export default function IdeaSubmission({onClick}: IdeaSubmissionProps) {
   const [formData, setFormData] = useState({
     title: '',
     description: '',
@@ -21,7 +27,21 @@ export default function IdeaSubmission() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      await axios.post('/api/ideas', formData);
+      await axios.post('/api/postIdeas', formData).then((res) => {
+        if(res?.status === 201 ) {
+          toast.success('Successfully added your idea 💡')
+          setFormData({
+            title: '',
+            description: '',
+            category: '',
+            tags: ''
+          })
+        };
+
+        if(res?.data?.status === 401) {
+          toast.error(res?.data?.error);
+        }
+      });
       
     } catch (error) {
       console.error('Error submitting idea:', error);
@@ -29,7 +49,7 @@ export default function IdeaSubmission() {
   };
 
   return (
-    <div className="bg-white w-[45%] h-content p-4 rounded-lg shadow-lg">
+    <motion.div initial={{opacity: 0, y: -100}} animate={{opacity: 1, y: 0}} exit={{opacity: 0, y: 100}} transition={{duration: 0.5, stiffness: 80, type: 'spring'}} className="bg-white absolute top-0 left-[30%] mt-32 w-[45%] h-content p-4 rounded-lg shadow-lg">
       <h2 className="text-2xl font-semibold mb-6">Submit a New Idea</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -87,6 +107,13 @@ export default function IdeaSubmission() {
           />
         </div>
         <div className="text-center">
+        <button
+           type='button'
+           onClick={onClick}
+            className="bg-cyan-600 text-white px-4 py-2 rounded-lg hover:bg-cyan-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+          >
+            Cancel
+          </button>
           <button
             type="submit"
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
@@ -95,6 +122,6 @@ export default function IdeaSubmission() {
           </button>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 }

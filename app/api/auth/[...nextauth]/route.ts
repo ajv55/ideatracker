@@ -5,6 +5,7 @@ import CredentialsProvider  from "next-auth/providers/credentials";
 import GoogleProvider from 'next-auth/providers/google';
 import { NextAuthOptions } from "next-auth";
 import bcrypt from 'bcrypt';
+import { JWT } from "next-auth/jwt";
 
 
 export const authOptions: NextAuthOptions = {
@@ -52,6 +53,39 @@ export const authOptions: NextAuthOptions = {
             }
         })
     ],
+    callbacks: {
+        jwt: async ({token, user, session, trigger}: {token: JWT, user?:  any , session?: any, trigger?: any}): Promise<any>  => {
+           
+           
+
+           // passing in user id, calories, height, weight, age, and gender to token
+           if(user) {
+         
+            return {
+                ...token, 
+                id: user?.id,
+            }
+        }
+
+        
+
+        
+            return token
+        },
+        session: async ({session, token, user}): Promise<any> => {
+        
+    
+            // adding the users age, weight, height, gender, caloires, and id through the token on the session
+            return {
+                ...session, 
+                user: {
+                    ...session.user,
+                   id: token?.id,
+                }
+            };
+
+        }
+    },
     secret: process.env.NEXTAUTH_SECRET!,
     session: {
         strategy: 'jwt',

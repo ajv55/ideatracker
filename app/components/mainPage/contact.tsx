@@ -1,5 +1,6 @@
 'use client';
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { useRouter } from "next/navigation";
 
 interface FormData {
     name: string;
@@ -13,6 +14,7 @@ const Contact = () => {
     email: '',
     message: ''
   });
+  const router = useRouter();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;

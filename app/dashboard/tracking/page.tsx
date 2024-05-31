@@ -1,7 +1,10 @@
+import IdeaChart from '@/app/components/dashboardComponents/bar'
 import React from 'react'
 
 export default function Page() {
   return (
-    <div>Tracking page</div>
+    <div className='w-full h-screen'>
+      <IdeaChart />
+    </div>
   )
 }
