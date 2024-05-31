@@ -12,11 +12,15 @@ interface Idea {
 interface IdeaState {
     isIdeaOpen: boolean,
     ideasList?: Idea[],
+    isEditModalOpen?: boolean,
+    isLoading?: boolean
 }
 
 const initialState: IdeaState = {
     isIdeaOpen: false,
-    ideasList: []
+    ideasList: [],
+    isEditModalOpen: false,
+    isLoading: false,
 }
 
 const ideaSlice = createSlice({
@@ -28,10 +32,17 @@ const ideaSlice = createSlice({
         },
         setIdeasList: (state, action) => {
             state.ideasList = action.payload
+        },
+        setIsEditOpen: (state, action) => {
+            state.isEditModalOpen = action.payload
+        },
+        setIsLoading: (state, action) => {
+            state.isLoading = action.payload
+
         }
     }
 })
 
-export const {setIsIdeaOpen, setIdeasList} = ideaSlice.actions;
+export const {setIsIdeaOpen, setIdeasList,setIsEditOpen, setIsLoading} = ideaSlice.actions;
 
 export default ideaSlice.reducer;

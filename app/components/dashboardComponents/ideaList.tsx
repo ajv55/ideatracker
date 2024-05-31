@@ -6,10 +6,11 @@ import IdeaSubmission from './submission';
 import axios from 'axios';
 import IdeaListSkeleton from '../skeleton/ideaListSkeleton';
 import {  useSelector, useDispatch } from 'react-redux';
-import { setIsIdeaOpen, setIdeasList } from '@/app/slices/ideaSlice';
+import { setIsIdeaOpen, setIdeasList, setIsEditOpen,setIsLoading } from '@/app/slices/ideaSlice';
 import { RootState } from '@/app/store';
 import toast from 'react-hot-toast';
 import DeleteModal from './deleteModal';
+import EditModal from './editModal';
 
 type Idea = {
   id: number;
@@ -22,16 +23,19 @@ type Idea = {
 
 
 const IdeaList: React.FC = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false)
+  
   const [filterStatus, setFilterStatus] = useState<'all' | 'OPEN' | 'IN_PROGRESS' | 'COMPLETED'>('all');
   const [sortKey, setSortKey] = useState<'title' | 'dateCreated'>('dateCreated');
   const open = useSelector((state: RootState) => state.idea.isIdeaOpen) ;
+  const editModalOpen = useSelector((state: RootState) => state.idea.isEditModalOpen) ;
+  const isLoading = useSelector((state: RootState) => state.idea.isLoading) ;
   const ideasList = useSelector((state: RootState) => state.idea.ideasList)
   const dispatch = useDispatch();
-  const [deleteModal, setDeleteModal] = useState<boolean>(false)
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
+  
  
 
-  console.log(ideasList)
+  console.log(editModalOpen)
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setFilterStatus(e.target.value as 'all' | 'OPEN' | 'IN_PROGRESS' | 'COMPLETED');
   };
@@ -40,10 +44,7 @@ const IdeaList: React.FC = () => {
     setSortKey(e.target.value as 'title' | 'dateCreated');
   };
 
-  const handleEdit = (id: number) => {
-    // Handle edit action here
-    console.log(`Edit idea with id: ${id}`);
-  };
+  
 
   const handleDelete = async (id: number) => {
     //handle delete from the backend
@@ -65,12 +66,12 @@ const IdeaList: React.FC = () => {
   };
 
    const getAllIdeas = async () => {
-    setIsLoading(true)
+    dispatch(setIsLoading(true))
     await axios.get('/api/getAll').then((res: any) => {
       if(res.status === 201){
         dispatch(setIdeasList(res?.data))
       }
-    }).finally(() => setIsLoading(false))
+    }).finally(() => dispatch(setIsLoading(false)))
   }
 
   useEffect(() => {
@@ -119,7 +120,10 @@ const IdeaList: React.FC = () => {
         {isLoading && <IdeaListSkeleton />}
         {!isLoading && sortedIdeas.map(idea => (
           <li key={idea.id} className="bg-gray-50 p-4 rounded-lg shadow-sm flex justify-between items-center">
-            {deleteModal && <DeleteModal onDelete={() => handleDelete(idea.id)} onClose={() => setDeleteModal(false)} />}
+            <AnimatePresence>
+              {deleteModal && <DeleteModal onDelete={() => handleDelete(idea.id)} onClose={() => setDeleteModal(false)} />}
+              {editModalOpen && <EditModal editIdea={idea} onClose={() => dispatch(setIsEditOpen(false))} />}
+              </AnimatePresence>
             <div>
               <h3 className="text-lg font-bold">{idea.title}</h3>
               <p className="text-gray-600">{idea.description}</p>
@@ -137,7 +141,7 @@ const IdeaList: React.FC = () => {
               </span>
               <button
                 className="bg-yellow-500 text-white px-2 py-1 rounded-lg"
-                onClick={() => handleEdit(idea.id)}
+                onClick={() => dispatch(setIsEditOpen(true))}
               >
                 Edit
               </button>

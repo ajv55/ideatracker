@@ -14,6 +14,7 @@ export default function DeleteModal({onClose, onDelete}: DeleteModalProps) {
         initial={{ opacity: 0, scale: 0.8 }} 
         animate={{ opacity: 1, scale: 1 }} 
         exit={{ opacity: 0, scale: 0.8 }}
+        transition={{duration: 0.5, type: 'spring', stiffness: 80}}
         className="bg-white rounded-lg shadow-lg p-6 max-w-sm w-full"
       >
         <h2 className="text-2xl font-semibold mb-4">Delete Idea</h2>
