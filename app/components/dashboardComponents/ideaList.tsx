@@ -9,6 +9,7 @@ import {  useSelector, useDispatch } from 'react-redux';
 import { setIsIdeaOpen, setIdeasList } from '@/app/slices/ideaSlice';
 import { RootState } from '@/app/store';
 import toast from 'react-hot-toast';
+import DeleteModal from './deleteModal';
 
 type Idea = {
   id: number;
@@ -27,6 +28,7 @@ const IdeaList: React.FC = () => {
   const open = useSelector((state: RootState) => state.idea.isIdeaOpen) ;
   const ideasList = useSelector((state: RootState) => state.idea.ideasList)
   const dispatch = useDispatch();
+  const [deleteModal, setDeleteModal] = useState<boolean>(false)
  
 
   console.log(ideasList)
@@ -52,6 +54,7 @@ const IdeaList: React.FC = () => {
         if(res.status === 201) {
           toast.success(`You've deleted the idea`)
           getAllIdeas();
+          setDeleteModal(false)
         }
       });
      
@@ -116,6 +119,7 @@ const IdeaList: React.FC = () => {
         {isLoading && <IdeaListSkeleton />}
         {!isLoading && sortedIdeas.map(idea => (
           <li key={idea.id} className="bg-gray-50 p-4 rounded-lg shadow-sm flex justify-between items-center">
+            {deleteModal && <DeleteModal onDelete={() => handleDelete(idea.id)} onClose={() => setDeleteModal(false)} />}
             <div>
               <h3 className="text-lg font-bold">{idea.title}</h3>
               <p className="text-gray-600">{idea.description}</p>
@@ -139,7 +143,7 @@ const IdeaList: React.FC = () => {
               </button>
               <button
                 className="bg-red-500 text-white px-2 py-1 rounded-lg"
-                onClick={() => handleDelete(idea.id)}
+                onClick={() => setDeleteModal(true)}
               >
                 Delete
               </button>
