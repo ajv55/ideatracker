@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 interface Idea {
-    id: string;
+    id:  string ;
     title: string;
     description: string;
     category: string;

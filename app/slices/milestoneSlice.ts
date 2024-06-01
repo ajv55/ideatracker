@@ -6,13 +6,15 @@ interface MilestoneState {
     milestoneIsLoading?: boolean,
     milestoneModal?: boolean,
     milestoneDeleteModal?: boolean,
+    aiModal?: boolean
 }
 
 const initialState: MilestoneState = {
     milestoneList: [],
     milestoneIsLoading: false,
     milestoneModal: false,
-    milestoneDeleteModal: false
+    milestoneDeleteModal: false,
+    aiModal: false
 } as MilestoneState
 
 export const milestoneSlice = createSlice({
@@ -31,9 +33,12 @@ export const milestoneSlice = createSlice({
         setMilestoneDeleteModal: (state, action) => {
             state.milestoneDeleteModal = action.payload
         },
+        setAiModal: (state, action) => {
+            state.aiModal = action.payload
+        },
     }
 })
 
-export const { setMilestoneIsLoading, setMilestoneList, setMilestoneModal, setMilestoneDeleteModal } = milestoneSlice.actions;
+export const { setMilestoneIsLoading, setMilestoneList, setMilestoneModal, setMilestoneDeleteModal, setAiModal } = milestoneSlice.actions;
 
 export default milestoneSlice.reducer;
