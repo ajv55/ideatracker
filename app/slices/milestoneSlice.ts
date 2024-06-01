@@ -11,7 +11,7 @@ const initialState: MilestoneState = {
     milestoneList: [],
     milestoneIsLoading: false,
     milestoneModal: false
-}
+} as MilestoneState
 
 export const milestoneSlice = createSlice({
     name: 'milestone',

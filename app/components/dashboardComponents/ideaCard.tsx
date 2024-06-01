@@ -16,6 +16,7 @@ interface Idea {
   
 
 const IdeaCard = ({ idea }: IdeaCardProps) => {
+
     return (
       <Link href={{
         pathname: `/dashboard/recent/${idea.id}`,
@@ -25,7 +26,8 @@ const IdeaCard = ({ idea }: IdeaCardProps) => {
           tags: idea?.tags,
           category: idea?.category,
           status: idea?.status,
-          createdAt: idea?.createdAt
+          createdAt: idea?.createdAt,
+          id: idea?.id
         }
       }} className="bg-white rounded-lg flex flex-col justify-start items-start  shadow-md shadow-zinc-950 p-6">
         <h2 className="text-2xl font-semibold mb-4">{idea.title}</h2>

@@ -1,13 +1,14 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/app/store';
-import { setMilestoneModal } from '@/app/slices/milestoneSlice';
+import { setMilestoneModal, setMilestoneList, setMilestoneIsLoading } from '@/app/slices/milestoneSlice';
 import MilestoneModal from '@/app/components/recentComponent/milestoneModal';
 import { AnimatePresence, motion } from "framer-motion";
+import IdeaListSkeleton from '@/app/components/skeleton/ideaListSkeleton';
 
 
 interface Milestone {
@@ -23,23 +24,33 @@ export default function Page() {
   const category = searchParams.get('category');
   const tags = searchParams.get('tags');
   const status = searchParams.get('status');
+  const id = searchParams.get('id');
 
   const milestoneModalIsOpen = useSelector((state: RootState) => state.milestone.milestoneModal);
+  const milestoneList = useSelector((state: RootState) => state.milestone.milestoneList);
+  const milestoneIsLoading = useSelector((state: RootState) => state.milestone.milestoneIsLoading);
   const dispatch = useDispatch();
 
-  const [milestones, setMilestones] = useState<Milestone[]>([]);
+
   const [newMilestone, setNewMilestone] = useState({ title: '', description: '' });
   const [expandedIdea, setExpandedIdea] = useState('');
 
-  const handleAddMilestone = () => {
-    if (newMilestone.title && newMilestone.description) {
-      setMilestones([
-        ...milestones,
-        { id: milestones.length + 1, title: newMilestone.title, description: newMilestone.description },
-      ]);
-      setNewMilestone({ title: '', description: '' });
-    }
-  };
+
+  const getMilestones = async () => {
+    dispatch(setMilestoneIsLoading(true))
+    await axios.get(`/api/getMilestone?id=${id}`).then((res: any) => {
+      if(res.status === 201) {
+        dispatch(setMilestoneList(res?.data))
+      }
+    })
+    dispatch(setMilestoneIsLoading(false))
+  }
+
+  
+
+  useEffect(() => {
+    getMilestones();
+  }, [])
 
   const handleOpenAISuggestion = async (type: string) => {
     try {
@@ -55,13 +66,16 @@ export default function Page() {
     }
   };
 
+  console.log(milestoneList)
+
+
   return (
     <div className="flex flex-col relative items-center w-full h-screen overflow-scroll p-4 bg-gray-100">
-      <AnimatePresence>{milestoneModalIsOpen && <MilestoneModal />}</AnimatePresence>
+      <AnimatePresence>{milestoneModalIsOpen && <MilestoneModal id={id!} />}</AnimatePresence>
       <div className="bg-gradient-to-r from-slate-950 to-teal-500 text-white w-full p-8 rounded-lg shadow-lg mb-8">
         <div className="text-center mb-4">
           <h2 className="text-4xl font-bold">{title}</h2>
-          <p className="text-lg">{description}</p>
+          <p className="text-lg">{description }</p>
         </div>
         <div className="flex flex-wrap justify-center space-x-4">
           <p className="text-md"><strong>Category:</strong> {category}</p>
@@ -83,7 +97,9 @@ export default function Page() {
           </button>
         </div>
         <ul className="space-y-4 mb-4">
-          {milestones.map((milestone) => (
+          {milestoneIsLoading && <IdeaListSkeleton />}
+          {milestoneList?.length === 0 && <h1>No milestone added yet.</h1>}
+          {!milestoneIsLoading && milestoneList?.map((milestone: Milestone) => (
             <li key={milestone.id} className="bg-gray-200 p-4 rounded-lg shadow-sm">
               <h4 className="text-xl font-bold">{milestone.title}</h4>
               <p>{milestone.description}</p>

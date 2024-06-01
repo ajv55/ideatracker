@@ -1,11 +1,49 @@
 'use client';
 import { motion } from "framer-motion"
 import { useDispatch } from "react-redux";
-import { setMilestoneModal } from "@/app/slices/milestoneSlice";
+import { setMilestoneIsLoading, setMilestoneList, setMilestoneModal } from "@/app/slices/milestoneSlice";
+import axios from "axios";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
-export default function MilestoneModal() {
+interface MilestoneModalProps {
+  id?: string
+}
+
+export default function MilestoneModal({id}: MilestoneModalProps) {
 
     const dispatch = useDispatch();
+
+    const [newMilestone, setNewMilestone] = useState({ title: '', description: '', id: id });
+
+    const getMilestones = async () => {
+      dispatch(setMilestoneIsLoading(true))
+      await axios.get(`/api/getMilestone?id=${id}`).then((res: any) => {
+        if(res.status === 201) {
+          dispatch(setMilestoneList(res?.data))
+        }
+      })
+      dispatch(setMilestoneIsLoading(false))
+    }
+
+    const addMilestone = async () => {
+      await axios.post('/api/postMilestone', {newMilestone}).then((res) => {
+        if(res.status === 201) {
+          toast.success(`Successfully added a milestone`)
+          setNewMilestone({
+            title: '', description: '', id: id
+          })
+          dispatch(setMilestoneModal(false));
+          getMilestones();
+        };
+      }).catch((res) => {
+        console.log(res?.response);
+        if(res?.response?.status === 401){
+          toast.error(res?.response?.data?.error)
+        }
+      })
+      
+    }
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
@@ -17,8 +55,8 @@ export default function MilestoneModal() {
               type="text"
               id="milestoneTitle"
               name="title"
-            //   value={newMilestone.title}
-            //   onChange={(e) => setNewMilestone({ ...newMilestone, title: e.target.value })}
+              value={newMilestone.title}
+              onChange={(e) => setNewMilestone({ ...newMilestone, title: e.target.value })}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter milestone title"
               required
@@ -29,8 +67,8 @@ export default function MilestoneModal() {
             <textarea
               id="milestoneDescription"
               name="description"
-            //   value={newMilestone.description}
-            //   onChange={(e) => setNewMilestone({ ...newMilestone, description: e.target.value })}
+              value={newMilestone.description}
+              onChange={(e) => setNewMilestone({ ...newMilestone, description: e.target.value })}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-600"
               placeholder="Enter milestone description"
               required
@@ -38,7 +76,7 @@ export default function MilestoneModal() {
           </div>
           <div className="flex justify-center items-center gap-3">
             <button
-                // onClick={handleAddMilestone}
+                onClick={addMilestone}
                 className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
             >
                 Add Milestone

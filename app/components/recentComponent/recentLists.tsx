@@ -2,16 +2,13 @@
 import React, { useEffect, useState } from 'react'
 import IdeaCard from '../dashboardComponents/ideaCard'
 import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '@/app/store';
-import { setMilestoneModal } from '@/app/slices/milestoneSlice';
+
 
 export default function RecentList() {
 
     const [recentActivity, setRecentActivity] = useState([]);
 
-    const milestoneModalIsOpen = useSelector((state: RootState) => state.milestone.milestoneModal);
-    const dispatch = useDispatch();
+   
 
 
     const getIdeas = async () => {
@@ -37,8 +34,8 @@ export default function RecentList() {
           {recentActivity.map((activity: any, index) => {
             if(activity?.status === 'IN_PROGRESS') {
               return <li key={index} className="py-2">
-              <IdeaCard idea={activity} />
-            </li>
+                      <IdeaCard idea={activity} />
+                    </li>
             }
 })}
         </ul>
