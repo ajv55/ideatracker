@@ -4,13 +4,15 @@ import { stat } from "fs";
 interface MilestoneState {
     milestoneList?: [],
     milestoneIsLoading?: boolean,
-    milestoneModal?: boolean
+    milestoneModal?: boolean,
+    milestoneDeleteModal?: boolean,
 }
 
 const initialState: MilestoneState = {
     milestoneList: [],
     milestoneIsLoading: false,
-    milestoneModal: false
+    milestoneModal: false,
+    milestoneDeleteModal: false
 } as MilestoneState
 
 export const milestoneSlice = createSlice({
@@ -26,9 +28,12 @@ export const milestoneSlice = createSlice({
         setMilestoneModal: (state, action) => {
             state.milestoneModal = action.payload
         },
+        setMilestoneDeleteModal: (state, action) => {
+            state.milestoneDeleteModal = action.payload
+        },
     }
 })
 
-export const { setMilestoneIsLoading, setMilestoneList, setMilestoneModal } = milestoneSlice.actions;
+export const { setMilestoneIsLoading, setMilestoneList, setMilestoneModal, setMilestoneDeleteModal } = milestoneSlice.actions;
 
 export default milestoneSlice.reducer;

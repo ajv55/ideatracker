@@ -5,16 +5,19 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/app/store';
-import { setMilestoneModal, setMilestoneList, setMilestoneIsLoading } from '@/app/slices/milestoneSlice';
+import { setMilestoneModal, setMilestoneList, setMilestoneIsLoading, setMilestoneDeleteModal } from '@/app/slices/milestoneSlice';
 import MilestoneModal from '@/app/components/recentComponent/milestoneModal';
 import { AnimatePresence, motion } from "framer-motion";
 import IdeaListSkeleton from '@/app/components/skeleton/ideaListSkeleton';
+import { format } from 'date-fns';
+import MilestoneDeleteModal from '@/app/components/recentComponent/milestoneDeleteModal';
 
 
 interface Milestone {
   id: number;
   title: string;
   description: string;
+  createdAt?: string
 }
 
 export default function Page() {
@@ -27,6 +30,7 @@ export default function Page() {
   const id = searchParams.get('id');
 
   const milestoneModalIsOpen = useSelector((state: RootState) => state.milestone.milestoneModal);
+  const milestoneDeleteModalIsOpen = useSelector((state: RootState) => state.milestone.milestoneDeleteModal);
   const milestoneList = useSelector((state: RootState) => state.milestone.milestoneList);
   const milestoneIsLoading = useSelector((state: RootState) => state.milestone.milestoneIsLoading);
   const dispatch = useDispatch();
@@ -66,12 +70,19 @@ export default function Page() {
     }
   };
 
-  console.log(milestoneList)
+  const handleDeleteMilestone = async (id: string) => {
+    console.log(id)
+  };
+
+  console.log(milestoneDeleteModalIsOpen)
 
 
   return (
     <div className="flex flex-col relative items-center w-full h-screen overflow-scroll p-4 bg-gray-100">
-      <AnimatePresence>{milestoneModalIsOpen && <MilestoneModal id={id!} />}</AnimatePresence>
+      <AnimatePresence>
+        {milestoneModalIsOpen && <MilestoneModal id={id!} />}
+        {milestoneDeleteModalIsOpen && <MilestoneDeleteModal />}
+        </AnimatePresence>
       <div className="bg-gradient-to-r from-slate-950 to-teal-500 text-white w-full p-8 rounded-lg shadow-lg mb-8">
         <div className="text-center mb-4">
           <h2 className="text-4xl font-bold">{title}</h2>
@@ -100,10 +111,19 @@ export default function Page() {
           {milestoneIsLoading && <IdeaListSkeleton />}
           {milestoneList?.length === 0 && <h1>No milestone added yet.</h1>}
           {!milestoneIsLoading && milestoneList?.map((milestone: Milestone) => (
-            <li key={milestone.id} className="bg-gray-200 p-4 rounded-lg shadow-sm">
+            <li key={milestone.id} className="bg-gray-200 p-4 rounded-lg shadow-sm flex justify-between items-center">
+            <div>
               <h4 className="text-xl font-bold">{milestone.title}</h4>
               <p>{milestone.description}</p>
-            </li>
+              <p className="text-sm text-gray-600">Created at: {format(new Date(milestone?.createdAt!), 'PPP')}</p>
+            </div>
+            <button
+              onClick={() => dispatch(setMilestoneDeleteModal(true))}
+              className="bg-red-600 text-white px-4 py-2 rounded-lg"
+            >
+              Delete
+            </button>
+          </li>
           ))}
         </ul>
         
