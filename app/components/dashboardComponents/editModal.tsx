@@ -1,5 +1,6 @@
 'use client';
 import { setIdeasList, setIsEditOpen, setIsLoading } from "@/app/slices/ideaSlice";
+import { RootState } from "@/app/store";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
@@ -19,23 +20,25 @@ interface Idea {
 interface EditModalProps {
     handleEdit?: () => void,
     onClose?: () => void,
-    editIdea?: Idea,
+    id?: number
 }
 
-export default function EditModal({ onClose, editIdea}: EditModalProps) {
+export default function EditModal({ onClose, id}: EditModalProps) {
+
+    const dispatch = useDispatch();
+    const ideasList = useSelector((state: RootState) => state.idea.ideasList);
+
+    const newest = ideasList?.find((il: any) => il.id === id);
 
     const [formData, setFormData] = useState({
-        id: editIdea?.id,
-        title: editIdea?.title,
-        description: editIdea?.description,
-        category: editIdea?.category,
-        tags: editIdea?.tags,
-        status: editIdea?.status,
+        id: newest?.id,
+        title: newest?.title,
+        description: newest?.description,
+        category: newest?.category,
+        tags: newest?.tags,
+        status: newest?.status,
       });
 
-      const dispatch = useDispatch();
-
-      console.log(formData);
 
       const getAllIdeas = async () => {
         dispatch(setIsLoading(true))
@@ -48,7 +51,6 @@ export default function EditModal({ onClose, editIdea}: EditModalProps) {
 
       const handleEdit = async (e: React.FormEvent) => {
         e.preventDefault()
-        console.log(`Edit idea with id: ${formData?.id}`);
         await axios.put('/api/updateIdea', {id: formData?.id, formData: formData}).then((res: any) => {
           if(res.status === 201) {
             getAllIdeas();

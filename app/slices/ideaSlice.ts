@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 interface Idea {
     id: number;
     title: string;
+    tags: string;
     description: string;
     createdAt?: Date;
     category?: string;
