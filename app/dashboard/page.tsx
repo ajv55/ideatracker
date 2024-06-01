@@ -12,7 +12,6 @@ export default function Page() {
         <div className='flex mt-4 justify-evenly items-center'>
             <IdeaList />
         </div>
-        <AiExpansion />
     </div>
   )
 }

@@ -24,7 +24,7 @@ const initialState: IdeaState = {
     isLoading: false,
 }
 
-const ideaSlice = createSlice({
+export const ideaSlice = createSlice({
     name: 'idea',
     initialState,
     reducers: {

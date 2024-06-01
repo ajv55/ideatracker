@@ -59,8 +59,19 @@ model Idea {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  
+  milestones  Milestone[] @relation("IdeaMilestones")
 
+
+}
+
+model Milestone {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  ideaId      String   @db.ObjectId
+  idea        Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade, name: "IdeaMilestones")
+  title       String?
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 enum IdeaStatus {

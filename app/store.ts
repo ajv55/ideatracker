@@ -1,10 +1,12 @@
 import {configureStore} from '@reduxjs/toolkit';
 import ideaReducer from './slices/ideaSlice';
+import milestoneReducer from './slices/milestoneSlice';
 
 
 export const store = configureStore({
     reducer: {
-        idea: ideaReducer
+        idea: ideaReducer,
+        milestone: milestoneReducer
     }
 });
 
