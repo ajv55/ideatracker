@@ -1,14 +1,60 @@
 'use client';
 import { motion } from "framer-motion";
-import { useDispatch } from "react-redux";
-import { setMilestoneDeleteModal } from "@/app/slices/milestoneSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setMilestoneDeleteModal, setMilestoneIsLoading, setMilestoneList } from "@/app/slices/milestoneSlice";
+import axios from "axios";
+import { RootState } from "@/app/store";
+import toast from "react-hot-toast";
 
-export default function MilestoneDeleteModal() {
+interface MilestoneDeleteModalProps {
+    id?: number,
+    ideaId?: number,
+}
+
+interface Milestone {
+    id: number; // or number, based on your actual data type
+    title: string;
+    description: string;
+    createdAt: string;
+  }
+
+
+export default function MilestoneDeleteModal({id, ideaId}: MilestoneDeleteModalProps) {
 
     const dispatch = useDispatch();
+    const milestoneList = useSelector((state: RootState) => state?.milestone?.milestoneList);
+
+    console.log('id: ', id);
+
+    const matchedMilestone = milestoneList?.find((ml: Milestone) => ml?.id === id) as Milestone | undefined;
+    const matchingId = matchedMilestone?.id;
+    console.log(matchingId);
+
+    const getMilestones = async () => {
+        dispatch(setMilestoneIsLoading(true))
+        await axios.get(`/api/getMilestone?id=${ideaId}`).then((res: any) => {
+          if(res.status === 201) {
+            dispatch(setMilestoneList(res?.data))
+          }
+        })
+        dispatch(setMilestoneIsLoading(false))
+      }
+    
+
+
+    const handleDelete = async () => {
+        await axios.delete(`/api/deleteMilestone?milestoneId=${matchingId}`).then((res: any) => {
+            console.log(res)
+            if(res.status === 201){
+                toast.success('Successfully delete the milestone');
+                dispatch(setMilestoneDeleteModal(false))
+                getMilestones();
+            }
+        })
+    }
 
   return (
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-gray-500 bg-opacity-10 flex justify-center items-center z-20">
       <motion.div 
         initial={{ opacity: 0, scale: 0.8 }} 
         animate={{ opacity: 1, scale: 1 }} 
@@ -26,7 +72,7 @@ export default function MilestoneDeleteModal() {
             Cancel
           </button>
           <button 
-        //   onClick={onDelete}
+          onClick={handleDelete}
             className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
           >
             Delete

@@ -38,6 +38,7 @@ export default function Page() {
 
   const [newMilestone, setNewMilestone] = useState({ title: '', description: '' });
   const [expandedIdea, setExpandedIdea] = useState('');
+  const [milestoneId, setMilestoneId] = useState(0);
 
 
   const getMilestones = async () => {
@@ -74,14 +75,14 @@ export default function Page() {
     console.log(id)
   };
 
-  console.log(milestoneDeleteModalIsOpen)
+  console.log('milestoneid: ', milestoneId)
 
 
   return (
     <div className="flex flex-col relative items-center w-full h-screen overflow-scroll p-4 bg-gray-100">
       <AnimatePresence>
         {milestoneModalIsOpen && <MilestoneModal id={id!} />}
-        {milestoneDeleteModalIsOpen && <MilestoneDeleteModal />}
+        {milestoneDeleteModalIsOpen && <MilestoneDeleteModal ideaId={id} id={milestoneId}/>}
         </AnimatePresence>
       <div className="bg-gradient-to-r from-slate-950 to-teal-500 text-white w-full p-8 rounded-lg shadow-lg mb-8">
         <div className="text-center mb-4">
@@ -112,13 +113,14 @@ export default function Page() {
           {milestoneList?.length === 0 && <h1>No milestone added yet.</h1>}
           {!milestoneIsLoading && milestoneList?.map((milestone: Milestone) => (
             <li key={milestone.id} className="bg-gray-200 p-4 rounded-lg shadow-sm flex justify-between items-center">
+              
             <div>
               <h4 className="text-xl font-bold">{milestone.title}</h4>
               <p>{milestone.description}</p>
               <p className="text-sm text-gray-600">Created at: {format(new Date(milestone?.createdAt!), 'PPP')}</p>
             </div>
             <button
-              onClick={() => dispatch(setMilestoneDeleteModal(true))}
+              onClick={() => {dispatch(setMilestoneDeleteModal(true)); setMilestoneId(milestone?.id) }}
               className="bg-red-600 text-white px-4 py-2 rounded-lg"
             >
               Delete
