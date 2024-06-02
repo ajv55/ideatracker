@@ -1,8 +1,9 @@
 'use client';
 import { motion } from "framer-motion";
 import { useDispatch } from "react-redux";
-import { setAiModal  } from "@/app/slices/milestoneSlice"; // Assuming you have a slice for handling modals
+import { setAiModal, setSuggestionLog  } from "@/app/slices/milestoneSlice"; // Assuming you have a slice for handling modals
 import axios from "axios";
+import toast from "react-hot-toast";
 
 interface AISuggestionModalProps {
     title?: string,
@@ -14,10 +15,23 @@ interface AISuggestionModalProps {
 export default function AISuggestionModal({title, description, id}: AISuggestionModalProps) {
   const dispatch = useDispatch();
 
+  const getSuggestionLogs = async () => {
+    await axios.get(`/api/getSuggestion?id=${id}`).then((res: any) => {
+      if(res.status === 201){
+        dispatch(setSuggestionLog(res?.data))
+      }
+    })
+  }
+
 
   const getAiSuggestion = async () => {
      await axios.post('/api/getAISuggestion', {title, description, id}).then((res: any) => {
         console.log(res)
+        if(res.status === 201) {
+          toast.success('Suggestion added to your log');
+          getSuggestionLogs();
+          dispatch(setAiModal(false))
+        }
      })
   }
 

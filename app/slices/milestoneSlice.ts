@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { stat } from "fs";
 
 interface MilestoneState {
     milestoneList?: [],
@@ -8,7 +7,9 @@ interface MilestoneState {
     milestoneDeleteModal?: boolean,
     aiModal?: boolean,
     editmilestoneModal?: boolean,
-    aiSuggestionModal?: boolean
+    aiSuggestionModal?: boolean,
+    suggestionLog?: [],
+    suggestionIsLoading?: boolean
 }
 
 const initialState: MilestoneState = {
@@ -18,7 +19,9 @@ const initialState: MilestoneState = {
     milestoneDeleteModal: false,
     aiModal: false,
     editmilestoneModal: false,
-    aiSuggestionModal: false
+    aiSuggestionModal: false,
+    suggestionLog: [],
+    suggestionIsLoading: false
 } as MilestoneState
 
 export const milestoneSlice = createSlice({
@@ -45,10 +48,16 @@ export const milestoneSlice = createSlice({
         },
         setAiSuggestionModal: (state, action) => {
             state.aiSuggestionModal = action.payload
+        },
+        setSuggestionLog: (state, action) => {
+            state.suggestionLog = action.payload
+        },
+        setSuggestionIsLoading: (state, action) => {
+            state.suggestionIsLoading = action.payload
         }
     }
 })
 
-export const { setMilestoneIsLoading, setMilestoneList, setMilestoneModal, setMilestoneDeleteModal, setAiModal, setEditModal, setAiSuggestionModal } = milestoneSlice.actions;
+export const { setMilestoneIsLoading, setMilestoneList, setMilestoneModal, setMilestoneDeleteModal, setAiModal, setEditModal, setAiSuggestionModal, setSuggestionLog, setSuggestionIsLoading } = milestoneSlice.actions;
 
 export default milestoneSlice.reducer;

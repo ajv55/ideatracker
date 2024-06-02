@@ -32,11 +32,8 @@ export async function POST(req: NextRequest, res: NextApiResponse){
 
         await prisma.suggestionLog.create({
           data: {
-            response: suggestion,
-            ideaId: id as string,
-            id: id as string,
-            userId: session?.user.id!
-            
+            response: suggestion!,
+            ideaId: id
           }
         })
     

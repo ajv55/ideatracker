@@ -63,23 +63,6 @@ export default function Page() {
     getMilestones();
   }, [])
 
-  const handleOpenAISuggestion = async (type: string) => {
-    try {
-      const response = await axios.post('/api/openai/suggest', { type, content: type === 'milestone' ? newMilestone : expandedIdea });
-      const suggestion = response.data.suggestion;
-      if (type === 'milestone') {
-        setNewMilestone({ ...newMilestone, description: suggestion });
-      } else {
-        setExpandedIdea(expandedIdea + '\n' + suggestion);
-      }
-    } catch (error) {
-      console.error('Error getting OpenAI suggestion', error);
-    }
-  };
-
-  const handleDeleteMilestone = async (id: string) => {
-    console.log(id)
-  };
 
   console.log('tags: ', isAiModalOpen)
 
@@ -122,7 +105,7 @@ export default function Page() {
         </div>
         <ul className="space-y-4 mb-4">
           {milestoneIsLoading && <IdeaListSkeleton />}
-          {milestoneList?.length === 0 && <h1>No milestone added yet.</h1>}
+          {!milestoneIsLoading && milestoneList?.length === 0 && <h1>No milestone added yet.</h1>}
           {!milestoneIsLoading && milestoneList?.map((milestone: Milestone) => (
             <li key={milestone.id} className="bg-gray-200 p-4 rounded-lg shadow-sm flex justify-between items-center">
               
@@ -151,7 +134,7 @@ export default function Page() {
       </div>
 
 
-      <Suggestion />
+      <Suggestion id={id!} />
       </div>
 
       

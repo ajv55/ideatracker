@@ -61,7 +61,7 @@ model Idea {
   updatedAt DateTime @updatedAt
 
   milestones  Milestone[] @relation("IdeaMilestones")
-  suggestionLogs SuggestionLog[]  // Add a field to store AI suggestion logs
+  suggestionLogs SuggestionLog[] @relation("IdeaSugesstion") // Add a field to store AI suggestion logs
 
 
 }
@@ -78,9 +78,8 @@ model Milestone {
 
 model SuggestionLog {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  userId      String   @db.ObjectId
   ideaId      String   @db.ObjectId
-  idea        Idea     @relation(fields: [ideaId], references: [id])
+  idea        Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade, name: "IdeaSugesstion")
   response    String?  // Store the AI suggestion response
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
