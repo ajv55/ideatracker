@@ -5,13 +5,14 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/app/store';
-import { setMilestoneModal, setMilestoneList, setMilestoneIsLoading, setMilestoneDeleteModal, setAiModal } from '@/app/slices/milestoneSlice';
+import { setMilestoneModal, setMilestoneList, setMilestoneIsLoading, setMilestoneDeleteModal, setAiModal, setEditModal } from '@/app/slices/milestoneSlice';
 import MilestoneModal from '@/app/components/recentComponent/milestoneModal';
 import { AnimatePresence, motion } from "framer-motion";
 import IdeaListSkeleton from '@/app/components/skeleton/ideaListSkeleton';
 import { format } from 'date-fns';
 import MilestoneDeleteModal from '@/app/components/recentComponent/milestoneDeleteModal';
 import AiModal from '@/app/components/recentComponent/aiModal';
+import EditMilestoneModal from '@/app/components/recentComponent/editMilestoneModal';
 
 
 interface Milestone {
@@ -35,6 +36,7 @@ export default function Page() {
   const milestoneList = useSelector((state: RootState) => state.milestone.milestoneList);
   const milestoneIsLoading = useSelector((state: RootState) => state.milestone.milestoneIsLoading);
   const isAiModalOpen = useSelector((state: RootState) => state.milestone.aiModal);
+  const editModal = useSelector((state: RootState) => state.milestone.editmilestoneModal);
   const dispatch = useDispatch();
 
 
@@ -86,6 +88,7 @@ export default function Page() {
         {milestoneModalIsOpen && <MilestoneModal id={id!} />}
         {milestoneDeleteModalIsOpen && <MilestoneDeleteModal ideaId={id as any} id={milestoneId}/>}
         {isAiModalOpen && <AiModal />}
+        {editModal && <EditMilestoneModal ideaId={id as any} id={milestoneId as any} />}
         </AnimatePresence>
       <div className="bg-gradient-to-r from-slate-950 to-teal-500 text-white flex flex-col justify-start items-center w-full p-2 rounded-lg shadow-lg mb-8">
         <div className='w-full flex justify-end items-end  h-content'>
@@ -125,12 +128,20 @@ export default function Page() {
               <p>{milestone.description}</p>
               <p className="text-sm text-gray-600">Created at: {format(new Date(milestone?.createdAt!), 'PPP')}</p>
             </div>
-            <button
-              onClick={() => {dispatch(setMilestoneDeleteModal(true)); setMilestoneId(milestone?.id) }}
-              className="bg-red-600 text-white px-4 py-2 rounded-lg"
-            >
-              Delete
-            </button>
+            <div className='flex justify-center gap-3 items-center'>
+              <button
+                onClick={() => {dispatch(setEditModal(true)); setMilestoneId(milestone?.id) }}
+                className="bg-amber-600 text-white px-4 py-2 rounded-lg"
+              >
+                Edit
+              </button>
+              <button
+                onClick={() => {dispatch(setMilestoneDeleteModal(true)); setMilestoneId(milestone?.id) }}
+                className="bg-red-600 text-white px-4 py-2 rounded-lg"
+              >
+                Delete
+              </button>
+            </div>
           </li>
           ))}
         </ul>
