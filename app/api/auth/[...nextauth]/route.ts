@@ -64,23 +64,21 @@ export const authOptions: NextAuthOptions = {
             return {
                 ...token, 
                 id: user?.id,
+                credit: user?.credit
             }
         }
-
-        
-
         
             return token
         },
         session: async ({session, token, user}): Promise<any> => {
         
-    
             // adding the users age, weight, height, gender, caloires, and id through the token on the session
             return {
                 ...session, 
                 user: {
                     ...session.user,
                    id: token?.id,
+                   credit: token?.credit
                 }
             };
 

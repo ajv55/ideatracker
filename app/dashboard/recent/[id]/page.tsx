@@ -13,6 +13,8 @@ import { format } from 'date-fns';
 import MilestoneDeleteModal from '@/app/components/recentComponent/milestoneDeleteModal';
 import AiModal from '@/app/components/recentComponent/aiModal';
 import EditMilestoneModal from '@/app/components/recentComponent/editMilestoneModal';
+import AISuggestionModal from '@/app/components/recentComponent/aiSuggestionModal';
+import Suggestion from '@/app/components/recentComponent/suggestion';
 
 
 interface Milestone {
@@ -87,7 +89,7 @@ export default function Page() {
       <AnimatePresence>
         {milestoneModalIsOpen && <MilestoneModal id={id!} />}
         {milestoneDeleteModalIsOpen && <MilestoneDeleteModal ideaId={id as any} id={milestoneId}/>}
-        {isAiModalOpen && <AiModal />}
+        {isAiModalOpen && <AISuggestionModal id={id!} title={title!} description={description!}  />}
         {editModal && <EditMilestoneModal ideaId={id as any} id={milestoneId as any} />}
         </AnimatePresence>
       <div className="bg-gradient-to-r from-slate-950 to-teal-500 text-white flex flex-col justify-start items-center w-full p-2 rounded-lg shadow-lg mb-8">
@@ -107,7 +109,8 @@ export default function Page() {
         </div>
       </div>
 
-      <div className="bg-white w-full md:w-2/3 lg:w-full p-8 rounded-lg shadow-lg mb-8">
+      <div className='flex w-full justify-between items-start'>
+      <div className="bg-white w-full md:w-2/3 lg:w-[50%] p-8 rounded-lg shadow-lg mb-8">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-2xl font-semibold">Milestones</h3>
           <button
@@ -145,7 +148,10 @@ export default function Page() {
           </li>
           ))}
         </ul>
-        
+      </div>
+
+
+      <Suggestion />
       </div>
 
       
