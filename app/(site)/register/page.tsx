@@ -92,6 +92,8 @@ export default function Page() {
             Register
           </button>
         </div>
+        <p className="text-center mt-5 lg:text-lg text-md tracking-wide">Already have an account? <Link href='/login' className="font-bold text-lg underline underline-offset-4 cursor-pointer text-blue-600">Sign In</Link></p>
+        
       </form>
     </div>
   </div>

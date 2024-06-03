@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { RootState } from "@/app/store";
+import { setIdeaCredit } from "@/app/slices/ideaSlice";
 
 interface AISuggestionModalProps {
     title?: string,
@@ -18,8 +19,8 @@ interface AISuggestionModalProps {
 
 export default function AISuggestionModal({title, description, id}: AISuggestionModalProps) {
   const dispatch = useDispatch();
-  const currentCredits = useSelector((state: RootState) => state.milestone.currentCredits);
-  const {update, data: session} = useSession();
+  const ideaCredit = useSelector((state: RootState) => state.idea.ideaCredit!);
+  const { data: session, update} = useSession();
 
   const userId = session?.user?.id
 
@@ -29,7 +30,7 @@ export default function AISuggestionModal({title, description, id}: AISuggestion
 
   
 
-  console.log(userCredits)
+  console.log('ideaCredit: ', ideaCredit)
 
   const getSuggestionLogs = async () => {
     await axios.get(`/api/getSuggestion?id=${id}`).then((res: any) => {
@@ -46,13 +47,21 @@ export default function AISuggestionModal({title, description, id}: AISuggestion
        if(res.status === 201) {
          toast.success('Suggestion added to your log');
          getSuggestionLogs();
-         dispatch(setAiModal(false));
-        //  update({credit: newCredits})
+         dispatch(setAiModal(false)); 
         const newCredits = userCredits - 1;
-        await axios.put('/api/credit', {newCredits, userId}).then((res: any) => {
-          console.log(res?.data?.credit)
+        const ideaNewCredits = Number(ideaCredit) - 1;
+        const toStringCredit = ideaNewCredits.toString()
+        console.log(toStringCredit)
+        // await axios.put('/api/updateCredit', {userId, ideaNewCredits}).then((res: any) => {
+        //   if(res.status === 201){
+        //     console.log(res)
+        //   }
+        // })
+        await axios.put('/api/credit', {toStringCredit, userId}).then(async (res: any) => {
+          console.log(res)
           if(res.status === 201) {
-            dispatch(setCurrentCredits(res?.data?.credit))
+            console.log(res)
+            dispatch(setIdeaCredit(res?.data?.ideaCredit))
           }
         })
        }

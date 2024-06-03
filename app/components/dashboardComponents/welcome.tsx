@@ -1,7 +1,6 @@
 'use client'; 
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
 import IdeaCard from "./ideaCard";
 import Link from "next/link";
 
@@ -13,9 +12,7 @@ const Welcome: React.FC = () => {
     const {data: session } = useSession();
 
     const userName = session?.user?.name
-
-    
-
+  
 
   return (
     <div className="bg-gradient-to-r from-slate-950 to-teal-500 text-white p-6 rounded-lg shadow-lg">

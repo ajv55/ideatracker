@@ -21,6 +21,7 @@ model User {
   image String?
   hashedPassword String?
   credit           Int       @default(5)  // Add the credit field with a default value of 5
+  ideaCredit           String       @default("5")  // Add the credit field with a default value of 5
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   

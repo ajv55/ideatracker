@@ -14,7 +14,8 @@ interface IdeaState {
     isIdeaOpen: boolean,
     ideasList?: Idea[],
     isEditModalOpen?: boolean,
-    isLoading?: boolean
+    isLoading?: boolean,
+    ideaCredit?: string
 }
 
 const initialState: IdeaState = {
@@ -22,6 +23,7 @@ const initialState: IdeaState = {
     ideasList: [],
     isEditModalOpen: false,
     isLoading: false,
+    ideaCredit: '',
 }
 
 export const ideaSlice = createSlice({
@@ -40,10 +42,13 @@ export const ideaSlice = createSlice({
         setIsLoading: (state, action) => {
             state.isLoading = action.payload
 
+        },
+        setIdeaCredit: (state, action) => {
+            state.ideaCredit = action.payload
         }
     }
 })
 
-export const {setIsIdeaOpen, setIdeasList,setIsEditOpen, setIsLoading} = ideaSlice.actions;
+export const {setIsIdeaOpen, setIdeasList,setIsEditOpen, setIsLoading, setIdeaCredit} = ideaSlice.actions;
 
 export default ideaSlice.reducer;

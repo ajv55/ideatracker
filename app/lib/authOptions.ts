@@ -54,8 +54,9 @@ export const authOptions: NextAuthOptions = {
     callbacks: {
         jwt: async ({token, user, session, trigger}: {token: JWT, user?:  any , session?: any, trigger?: any}): Promise<any>  => {
             if (trigger === 'update' && session?.credit) {
-                token.credit = session.credit
-               }
+                console.log('Updating token credit:', session.credit);
+                token.credit = session.credit;
+            }
 
            // passing in user id, calories, height, weight, age, and gender to token
            if(user) {
@@ -68,14 +69,14 @@ export const authOptions: NextAuthOptions = {
         }
 
         //updating the user info on the database
-        await prisma.user.update({
-            where: {
-                id: token.id as string
-            },
-            data: {
-                credit: token?.credit as number
-            }
-        });
+        if (token.id && typeof token.credit !== 'undefined') {
+            await prisma.user.update({
+                where: { id: token.id as string },
+                data: { credit: token.credit! }
+            });
+        }
+
+        
         
             return token
         },

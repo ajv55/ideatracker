@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/app/store';
-import { setMilestoneModal, setMilestoneList, setMilestoneIsLoading, setMilestoneDeleteModal, setAiModal, setEditModal } from '@/app/slices/milestoneSlice';
+import { setMilestoneModal, setMilestoneList, setMilestoneIsLoading, setMilestoneDeleteModal, setAiModal, setEditModal, setCurrentCredits } from '@/app/slices/milestoneSlice';
 import MilestoneModal from '@/app/components/recentComponent/milestoneModal';
 import { AnimatePresence, motion } from "framer-motion";
 import IdeaListSkeleton from '@/app/components/skeleton/ideaListSkeleton';
@@ -17,6 +17,7 @@ import AISuggestionModal from '@/app/components/recentComponent/aiSuggestionModa
 import Suggestion from '@/app/components/recentComponent/suggestion';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { setIdeaCredit } from '@/app/slices/ideaSlice';
 
 
 interface Milestone {
@@ -37,7 +38,10 @@ export default function Page() {
 
   const {data: session} = useSession();
 
-  const credits = session?.user.credit;
+  const credits = session?.user?.credit;
+
+  console.log(credits)
+
   const router = useRouter();
 
   const milestoneModalIsOpen = useSelector((state: RootState) => state.milestone.milestoneModal);
@@ -46,7 +50,7 @@ export default function Page() {
   const milestoneIsLoading = useSelector((state: RootState) => state.milestone.milestoneIsLoading);
   const isAiModalOpen = useSelector((state: RootState) => state.milestone.aiModal);
   const editModal = useSelector((state: RootState) => state.milestone.editmilestoneModal);
-  const currentCredits = useSelector((state: RootState) => state.milestone.currentCredits);
+  const ideaCredit = useSelector((state: RootState) => state.idea.ideaCredit);
   const dispatch = useDispatch();
 
 
@@ -66,7 +70,7 @@ export default function Page() {
   }
 
   const handleSuggestionClick = () => {
-    if(currentCredits === 0 ) {
+    if(ideaCredit === '0' ) {
       return router.push('/pricing')
     } else {
       dispatch(setAiModal(true))
@@ -74,14 +78,23 @@ export default function Page() {
 
   }
 
+  const getIdeaCredit = async () => {
+    await axios.get('/api/getCredit').then((res: any) => {
+      if(res.status === 201){
+        dispatch(setIdeaCredit(res?.data?.credit))
+      }
+    })
+  }
+
   
 
   useEffect(() => {
     getMilestones();
+   getIdeaCredit();
   }, [])
 
 
-  console.log('tags: ', isAiModalOpen)
+  console.log('ideaCredit: ', ideaCredit)
 
 
   return (
@@ -95,7 +108,7 @@ export default function Page() {
       <div className="bg-gradient-to-r from-slate-950 to-teal-500 text-white flex flex-col justify-start items-center w-full p-2 rounded-lg shadow-lg mb-8">
         <div className='w-full flex justify-end items-center gap-4  h-content'>
         <div className="text-lg font-bold">
-          Credits Remaining: <span className="text-amber-300">{currentCredits}</span>
+          Credits Remaining: <span className="text-amber-300">{ideaCredit}</span>
         </div>
           <button onClick={handleSuggestionClick} className='text-xl px-2.5 py-3 rounded-2xl w-[14%] bg-gradient-to-r from-teal-800 via-slate-800 to-slate-900 hover:from-slate-950 hover:via-slate-800 hover:bg-teal-800 text-center tracking-wide font-medium'>AI Suggestion</button>
         </div>

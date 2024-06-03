@@ -6,11 +6,11 @@ export async function PUT(req: NextRequest) {
 
     const body = await req.json()
     console.log(body)
-    const {newCredits, userId} = body;
+    const {toStringCredit, userId} = body;
 
     const updatedUser = await prisma.user.update({
         where: { id: userId },
-        data: { credit: newCredits as number },
+        data: { ideaCredit: toStringCredit as string},
       });
 
     return NextResponse.json(updatedUser, {status: 201})
