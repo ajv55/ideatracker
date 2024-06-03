@@ -1,59 +1,87 @@
-import React from 'react'
+'use client';
+import React from 'react';
+import Head from 'next/head';
+import { motion } from 'framer-motion';
+import PricingHeader from '../components/pricingComponent/pricingHeader';
+import Footer from '../components/mainPage/footer';
+import Hero from '../components/pricingComponent/hero';
 
-export default function Page() {
+const pricingPlans = [
+  {
+    title: '5 Credits',
+    price: '$5',
+    credits: 5,
+    buttonText: 'Buy Now',
+  },
+  {
+    title: '10 Credits',
+    price: '$9',
+    credits: 10,
+    buttonText: 'Buy Now',
+  },
+  {
+    title: '20 Credits',
+    price: '$17',
+    credits: 20,
+    buttonText: 'Buy Now',
+  },
+  {
+    title: '50 Credits',
+    price: '$40',
+    credits: 50,
+    buttonText: 'Buy Now',
+  },
+];
+
+const Pricing = () => {
+  const handlePurchase = (credits: number) => {
+    console.log(`Purchasing ${credits} credits...`);
+    // Add your purchase logic here
+  };
+
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center p-6">
-      <h1 className="text-5xl font-bold mb-8">Choose Your Plan</h1>
-      <div className="flex flex-wrap justify-center gap-6">
-        {/* Plan 1 */}
-        <div className="bg-white shadow-md rounded-lg p-6 w-full md:w-1/3">
-          <h2 className="text-3xl font-bold mb-4">Basic</h2>
-          <p className="text-xl mb-4">10 Credits</p>
-          <p className="text-2xl font-bold mb-4">$10</p>
-          <button
-            // onClick={() => handlePurchase(10)}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
-          >
-            Purchase
-          </button>
+    <div>
+      
+        <PricingHeader />
+      
+      <Hero />
+      <main className="w-full px-6 py-12">
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-bold">Choose a credit package</h2>
+          <p className="text-gray-600 mt-4">Get more credits to unlock additional features.</p>
         </div>
-        {/* Plan 2 */}
-        <div className="bg-white shadow-md rounded-lg p-6 w-full md:w-1/3">
-          <h2 className="text-3xl font-bold mb-4">Standard</h2>
-          <p className="text-xl mb-4">25 Credits</p>
-          <p className="text-2xl font-bold mb-4">$20</p>
-          <button
-            // onClick={() => handlePurchase(25)}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
-          >
-            Purchase
-          </button>
+        <div className="flex justify-center items-center gap-3  ">
+          {pricingPlans.map((plan, index) => (
+            <motion.div 
+              key={index}
+              className="w-full md:w-1/3    mb-8"
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.2, duration: 0.5 }}
+            >
+              <div className="bg-white rounded-lg shadow-lg shadow-zinc-900 p-8">
+                <h3 className="text-2xl font-semibold mb-4">{plan.title}</h3>
+                <p className="text-4xl font-bold mb-4">{plan.price}</p>
+                <ul className="mb-6">
+                  <li className="mb-2 text-gray-600">
+                    <span className="mr-2">✓</span>
+                    {plan.credits} Credits
+                  </li>
+                </ul>
+                <button
+                  onClick={() => handlePurchase(plan.credits)}
+                  className=" bg-gradient-to-tl from-slate-950 via-teal-800 to-slate-950 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+                >
+                  {plan.buttonText}
+                </button>
+              </div>
+            </motion.div>
+          ))}
         </div>
-        {/* Plan 3 */}
-        <div className="bg-white shadow-md rounded-lg p-6 w-full md:w-1/3">
-          <h2 className="text-3xl font-bold mb-4">Premium</h2>
-          <p className="text-xl mb-4">50 Credits</p>
-          <p className="text-2xl font-bold mb-4">$35</p>
-          <button
-            // onClick={() => handlePurchase(50)}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
-          >
-            Purchase
-          </button>
-        </div>
-        {/* Plan 4 */}
-        <div className="bg-white shadow-md rounded-lg p-6 w-full md:w-1/3">
-          <h2 className="text-3xl font-bold mb-4">Ultimate</h2>
-          <p className="text-xl mb-4">100 Credits</p>
-          <p className="text-2xl font-bold mb-4">$60</p>
-          <button
-            // onClick={() => handlePurchase(100)}
-            className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700"
-          >
-            Purchase
-          </button>
-        </div>
-      </div>
+      </main>
+      <Footer />
     </div>
-  )
-}
+  );
+};
+
+export default Pricing;
