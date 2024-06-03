@@ -1,9 +1,13 @@
 'use client';
 import { motion } from "framer-motion";
-import { useDispatch } from "react-redux";
-import { setAiModal, setSuggestionLog  } from "@/app/slices/milestoneSlice"; // Assuming you have a slice for handling modals
+import { useDispatch, useSelector } from "react-redux";
+import { setAiModal, setSuggestionLog, setCurrentCredits  } from "@/app/slices/milestoneSlice"; // Assuming you have a slice for handling modals
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { RootState } from "@/app/store";
 
 interface AISuggestionModalProps {
     title?: string,
@@ -14,6 +18,18 @@ interface AISuggestionModalProps {
 
 export default function AISuggestionModal({title, description, id}: AISuggestionModalProps) {
   const dispatch = useDispatch();
+  const currentCredits = useSelector((state: RootState) => state.milestone.currentCredits);
+  const {update, data: session} = useSession();
+
+  const userId = session?.user?.id
+
+  const userCredits = session?.user?.credit!
+
+  const router = useRouter();
+
+  
+
+  console.log(userCredits)
 
   const getSuggestionLogs = async () => {
     await axios.get(`/api/getSuggestion?id=${id}`).then((res: any) => {
@@ -25,15 +41,25 @@ export default function AISuggestionModal({title, description, id}: AISuggestion
 
 
   const getAiSuggestion = async () => {
-     await axios.post('/api/getAISuggestion', {title, description, id}).then((res: any) => {
-        console.log(res)
-        if(res.status === 201) {
-          toast.success('Suggestion added to your log');
-          getSuggestionLogs();
-          dispatch(setAiModal(false))
-        }
-     })
+    await axios.post('/api/getAISuggestion', {title, description, id}).then(async (res: any) => {
+       console.log(res)
+       if(res.status === 201) {
+         toast.success('Suggestion added to your log');
+         getSuggestionLogs();
+         dispatch(setAiModal(false));
+        //  update({credit: newCredits})
+        const newCredits = userCredits - 1;
+        await axios.put('/api/credit', {newCredits, userId}).then((res: any) => {
+          console.log(res?.data?.credit)
+          if(res.status === 201) {
+            dispatch(setCurrentCredits(res?.data?.credit))
+          }
+        })
+       }
+    })
+
   }
+  
 
   return (
     <div className="fixed inset-0 bg-gray-500 bg-opacity-10 flex justify-center items-center z-20">

@@ -9,7 +9,8 @@ interface MilestoneState {
     editmilestoneModal?: boolean,
     aiSuggestionModal?: boolean,
     suggestionLog?: [],
-    suggestionIsLoading?: boolean
+    suggestionIsLoading?: boolean,
+    currentCredits?: number
 }
 
 const initialState: MilestoneState = {
@@ -21,7 +22,8 @@ const initialState: MilestoneState = {
     editmilestoneModal: false,
     aiSuggestionModal: false,
     suggestionLog: [],
-    suggestionIsLoading: false
+    suggestionIsLoading: false,
+    currentCredits: 0
 } as MilestoneState
 
 export const milestoneSlice = createSlice({
@@ -54,10 +56,13 @@ export const milestoneSlice = createSlice({
         },
         setSuggestionIsLoading: (state, action) => {
             state.suggestionIsLoading = action.payload
+        },
+        setCurrentCredits: (state, action) => {
+            state.currentCredits = action.payload
         }
     }
 })
 
-export const { setMilestoneIsLoading, setMilestoneList, setMilestoneModal, setMilestoneDeleteModal, setAiModal, setEditModal, setAiSuggestionModal, setSuggestionLog, setSuggestionIsLoading } = milestoneSlice.actions;
+export const { setMilestoneIsLoading, setMilestoneList, setMilestoneModal, setMilestoneDeleteModal, setAiModal, setEditModal, setAiSuggestionModal, setSuggestionLog, setSuggestionIsLoading, setCurrentCredits } = milestoneSlice.actions;
 
 export default milestoneSlice.reducer;

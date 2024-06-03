@@ -16,6 +16,7 @@ import EditMilestoneModal from '@/app/components/recentComponent/editMilestoneMo
 import AISuggestionModal from '@/app/components/recentComponent/aiSuggestionModal';
 import Suggestion from '@/app/components/recentComponent/suggestion';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 
 interface Milestone {
@@ -36,7 +37,8 @@ export default function Page() {
 
   const {data: session} = useSession();
 
-  const credits = session?.user.credit
+  const credits = session?.user.credit;
+  const router = useRouter();
 
   const milestoneModalIsOpen = useSelector((state: RootState) => state.milestone.milestoneModal);
   const milestoneDeleteModalIsOpen = useSelector((state: RootState) => state.milestone.milestoneDeleteModal);
@@ -44,6 +46,7 @@ export default function Page() {
   const milestoneIsLoading = useSelector((state: RootState) => state.milestone.milestoneIsLoading);
   const isAiModalOpen = useSelector((state: RootState) => state.milestone.aiModal);
   const editModal = useSelector((state: RootState) => state.milestone.editmilestoneModal);
+  const currentCredits = useSelector((state: RootState) => state.milestone.currentCredits);
   const dispatch = useDispatch();
 
 
@@ -60,6 +63,15 @@ export default function Page() {
       }
     })
     dispatch(setMilestoneIsLoading(false))
+  }
+
+  const handleSuggestionClick = () => {
+    if(currentCredits === 0 ) {
+      return router.push('/pricing')
+    } else {
+      dispatch(setAiModal(true))
+    }
+
   }
 
   
@@ -83,9 +95,9 @@ export default function Page() {
       <div className="bg-gradient-to-r from-slate-950 to-teal-500 text-white flex flex-col justify-start items-center w-full p-2 rounded-lg shadow-lg mb-8">
         <div className='w-full flex justify-end items-center gap-4  h-content'>
         <div className="text-lg font-bold">
-          Credits Remaining: <span className="text-yellow-300">{credits}</span>
+          Credits Remaining: <span className="text-amber-300">{currentCredits}</span>
         </div>
-          <button onClick={() => dispatch(setAiModal(true))} className='text-xl px-2.5 py-3 rounded-2xl w-[14%] bg-gradient-to-r from-teal-800 via-slate-800 to-slate-900 hover:from-slate-950 hover:via-slate-800 hover:bg-teal-800 text-center tracking-wide font-medium'>AI Suggestion</button>
+          <button onClick={handleSuggestionClick} className='text-xl px-2.5 py-3 rounded-2xl w-[14%] bg-gradient-to-r from-teal-800 via-slate-800 to-slate-900 hover:from-slate-950 hover:via-slate-800 hover:bg-teal-800 text-center tracking-wide font-medium'>AI Suggestion</button>
         </div>
         <div className="text-center mb-4">
           <h2 className="text-4xl font-bold">{title}</h2>
