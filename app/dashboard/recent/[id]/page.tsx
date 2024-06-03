@@ -15,6 +15,7 @@ import AiModal from '@/app/components/recentComponent/aiModal';
 import EditMilestoneModal from '@/app/components/recentComponent/editMilestoneModal';
 import AISuggestionModal from '@/app/components/recentComponent/aiSuggestionModal';
 import Suggestion from '@/app/components/recentComponent/suggestion';
+import { useSession } from 'next-auth/react';
 
 
 interface Milestone {
@@ -32,6 +33,10 @@ export default function Page() {
   const tags = searchParams.get('tags');
   const status = searchParams.get('status');
   const id = searchParams.get('id');
+
+  const {data: session} = useSession();
+
+  const credits = session?.user.credit
 
   const milestoneModalIsOpen = useSelector((state: RootState) => state.milestone.milestoneModal);
   const milestoneDeleteModalIsOpen = useSelector((state: RootState) => state.milestone.milestoneDeleteModal);
@@ -76,7 +81,10 @@ export default function Page() {
         {editModal && <EditMilestoneModal ideaId={id as any} id={milestoneId as any} />}
         </AnimatePresence>
       <div className="bg-gradient-to-r from-slate-950 to-teal-500 text-white flex flex-col justify-start items-center w-full p-2 rounded-lg shadow-lg mb-8">
-        <div className='w-full flex justify-end items-end  h-content'>
+        <div className='w-full flex justify-end items-center gap-4  h-content'>
+        <div className="text-lg font-bold">
+          Credits Remaining: <span className="text-yellow-300">{credits}</span>
+        </div>
           <button onClick={() => dispatch(setAiModal(true))} className='text-xl px-2.5 py-3 rounded-2xl w-[14%] bg-gradient-to-r from-teal-800 via-slate-800 to-slate-900 hover:from-slate-950 hover:via-slate-800 hover:bg-teal-800 text-center tracking-wide font-medium'>AI Suggestion</button>
         </div>
         <div className="text-center mb-4">
