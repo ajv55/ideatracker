@@ -89,13 +89,13 @@ const IdeaList: React.FC = () => {
   });
 
   return (
-    <div className="bg-white w-[85%] p-6 rounded-lg shadow-zinc-900 shadow-md">
+    <div className="bg-white lg:w-[85%] w-full p-6 rounded-lg shadow-zinc-900 shadow-md">
       <AnimatePresence>{open && <IdeaSubmission onClick={() => dispatch(setIsIdeaOpen(false))} />}</AnimatePresence>
-      <h2 className="text-2xl font-semibold mb-4">Your Ideas</h2>
-      <div className="flex justify-between mb-4">
-        <div className="flex space-x-4">
+      <h2 className="lg:text-2xl text-3xl font-semibold mb-4">Your Ideas</h2>
+      <div className="flex flex-wrap gap-3 justify-between mb-4">
+        <div className="flex lg:space-x-4 gap-2">
           <select
-            className="border border-gray-300 rounded-lg p-2"
+            className="border border-cyan-600 text-sm rounded-lg lg:p-2 p-1"
             value={filterStatus}
             onChange={handleFilterChange}
           >
@@ -120,7 +120,7 @@ const IdeaList: React.FC = () => {
         {isLoading && <IdeaListSkeleton />}
         {!isLoading && sortedIdeas.map(idea => {
           const theIdea: any = editId === idea.id && idea
-          return <li key={idea.id} className="bg-gray-50 p-4 rounded-lg shadow-sm flex justify-between items-center">
+          return <li key={idea.id} className="bg-gray-50 p-4 rounded-lg shadow-sm flex flex-wrap gap-5 justify-between items-center">
             <AnimatePresence>
               {deleteModal && <DeleteModal onDelete={() => handleDelete(idea.id)} onClose={() => setDeleteModal(false)} />}
               {editModalOpen && <EditModal id={editId} onClose={() => dispatch(setIsEditOpen(false))} />}

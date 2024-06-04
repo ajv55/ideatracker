@@ -65,7 +65,7 @@ export default function IdeaSubmission({onClick}: IdeaSubmissionProps) {
   };
 
   return (
-    <motion.div initial={{opacity: 0, y: -100}} animate={{opacity: 1, y: 0}} exit={{opacity: 0, y: 100}} transition={{duration: 0.5, stiffness: 80, type: 'spring'}} className="bg-white absolute top-0 left-[30%] mt-32 w-[45%] h-content p-4 rounded-lg shadow-lg">
+    <motion.div initial={{opacity: 0, y: -100}} animate={{opacity: 1, y: 0}} exit={{opacity: 0, y: 100}} transition={{duration: 0.5, stiffness: 80, type: 'spring'}} className="bg-white lg:absolute fixed lg:top-0 opacity-25 -top-14 lg:left-[30%] left-2.5 mt-32 lg:w-[45%] w-[95%] h-content p-4 rounded-lg shadow-lg">
       <h2 className="text-2xl font-semibold mb-6">Submit a New Idea</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
