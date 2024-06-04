@@ -68,7 +68,7 @@ const Pricing = () => {
           <h2 className="text-4xl font-bold">Choose a credit package</h2>
           <p className="text-gray-600 mt-4">Get more credits to unlock additional features.</p>
         </div>
-        <div className="flex justify-center items-center gap-3  ">
+        <div className="flex lg:flex-row flex-col justify-center items-center gap-3  ">
           {pricingPlans.map((plan, index) => (
             <motion.div 
               key={index}
