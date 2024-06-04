@@ -35,7 +35,7 @@ const IdeaCard = ({ idea }: IdeaCardProps) => {
         <div className="flex items-center  w-full justify-between">
           <div className="flex items-center">
             <span className="text-gray-600 mr-2">Category:</span>
-            <span className="bg-gray-100 text-gray-800 px-2 py-1 rounded-md">{idea.category}</span>
+            <span className="bg-gray-100 text-xs lg:text-lg text-gray-800 px-2 py-1 rounded-md">{idea.category}</span>
           </div>
           <div className="flex items-center">
             <span className="text-gray-600 mr-2">Tags:</span>
@@ -44,11 +44,11 @@ const IdeaCard = ({ idea }: IdeaCardProps) => {
         </div>
         <div className="flex items-center mt-4">
           <span className="text-gray-600 mr-2">Status:</span>
-          <span className={`px-2 py-1 rounded-md ${idea.status === 'OPEN' ? 'bg-yellow-400 text-yellow-900' : (idea.status === 'IN_PROGRESS' ? 'bg-blue-400 text-blue-900' : 'bg-green-400 text-green-900')}`}>
+          <span className={`px-2 text-xs lg:text-lg py-1 rounded-md ${idea.status === 'OPEN' ? 'bg-yellow-400 text-yellow-900' : (idea.status === 'IN_PROGRESS' ? 'bg-blue-400 text-blue-900' : 'bg-green-400 text-green-900')}`}>
             {idea.status}
           </span>
         </div>
-        <p className="text-gray-500 mt-4">Created At: {new Date(idea.createdAt).toLocaleString()}</p>
+        <p className="text-gray-500 text-xs lg:text-lg mt-4">Created At: {new Date(idea.createdAt).toLocaleString()}</p>
       </Link>
     );
   };

@@ -106,11 +106,11 @@ export default function Page() {
         {editModal && <EditMilestoneModal ideaId={id as any} id={milestoneId as any} />}
         </AnimatePresence>
       <div className="bg-gradient-to-r from-slate-950 to-teal-500 text-white flex flex-col justify-start items-center w-full p-2 rounded-lg shadow-lg mb-8">
-        <div className='w-full flex justify-end items-center gap-4  h-content'>
-        <div className="text-lg font-bold">
+        <div className='w-full flex lg:mb-0 mb-6 lg:justify-end justify-between items-center gap-4  h-content'>
+        <div className="lg:text-lg  text-sm font-bold">
           Credits Remaining: <span className="text-amber-300">{ideaCredit}</span>
         </div>
-          <button onClick={handleSuggestionClick} className='text-xl px-2.5 py-3 rounded-2xl w-[14%] bg-gradient-to-r from-teal-800 via-slate-800 to-slate-900 hover:from-slate-950 hover:via-slate-800 hover:bg-teal-800 text-center tracking-wide font-medium'>AI Suggestion</button>
+          <button onClick={handleSuggestionClick} className='lg:text-xl text-lg px-2.5 py-3 rounded-2xl lg:w-[14%] w-[44%] bg-gradient-to-r from-teal-800 via-slate-800 to-slate-900 hover:from-slate-950 hover:via-slate-800 hover:bg-teal-800 text-center tracking-wide font-medium'>AI Suggestion</button>
         </div>
         <div className="text-center mb-4">
           <h2 className="text-4xl font-bold">{title}</h2>
@@ -125,7 +125,7 @@ export default function Page() {
         </div>
       </div>
 
-      <div className='flex w-full justify-between items-start'>
+      <div className='flex border-2 lg:flex-row flex-col w-full justify-between items-start'>
       <div className="bg-white w-full md:w-2/3 lg:w-[50%] p-8 rounded-lg shadow-lg mb-8">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-2xl font-semibold">Milestones</h3>

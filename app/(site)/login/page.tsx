@@ -77,7 +77,7 @@ export default function Page() {
               type="submit"
               className="bg-cyan-600 text-xl text-white px-4 py-2 rounded-lg hover:bg-cyan-800 drop-shadow-2xl focus:outline-none focus:ring-2 focus:ring-blue-600"
             >
-              Register
+              Login
             </button>
           </div>
           <div>

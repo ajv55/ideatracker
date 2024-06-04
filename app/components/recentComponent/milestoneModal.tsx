@@ -47,7 +47,7 @@ export default function MilestoneModal({id}: MilestoneModalProps) {
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
-        <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{duration: 0.5, type: 'spring', stiffness: 80}} exit={{ opacity: 0, scale: 0.8 }} className="bg-white  w-[55%] p-6 rounded-lg shadow-lg">
+        <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{duration: 0.5, type: 'spring', stiffness: 80}} exit={{ opacity: 0, scale: 0.8 }} className="bg-white  lg:w-[55%] w-[96%] p-6 rounded-lg shadow-lg">
           <h3 className="text-xl font-semibold mb-4">Add a New Milestone</h3>
           <div className="mb-4">
             <label htmlFor="milestoneTitle" className="block text-gray-700 font-bold mb-2">Title</label>

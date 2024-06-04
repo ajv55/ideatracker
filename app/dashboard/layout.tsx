@@ -57,7 +57,7 @@ export default function Layout({children}: {children: ReactNode}) {
         </motion.nav>
         <div className='self-end md:hidden  flex justify-between items-center w-full'>
           <h1 className='text-2xl font-medium tracking-wide p-2'>IdeaTracker+</h1>
-          <MdDashboard onClick={() => setIsOpen(!isOpen)} className='' size={50} color='black'/>
+          <motion.div whileTap={{scale: 0.3, rotate: 260}} transition={{duration: 1, type: 'spring', stiffness: 60 }} ><MdDashboard onClick={() => setIsOpen(!isOpen)} className='' size={50} color='black'/></motion.div>
         </div>
         {children}
     </div>

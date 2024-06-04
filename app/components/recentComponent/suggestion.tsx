@@ -40,7 +40,7 @@ const Suggestion = ({id}: SuggestionProps) => {
   console.log(suggestionLogs)
 
   return (
-    <div className="bg-white w-[47%] p-6 rounded-lg shadow-lg">
+    <div className="bg-white lg:w-[47%] w-full p-6 rounded-lg shadow-lg">
       <h2 className="text-2xl font-semibold mb-4">AI Suggestions</h2>
       <div className="divide-y  divide-gray-200">
         {isSuggestionLoading && <SuggestionSkeleton />}
