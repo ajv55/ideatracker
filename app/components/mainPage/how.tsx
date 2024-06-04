@@ -7,10 +7,10 @@ export default function How() {
     <section id="how-it-works" className="py-16 bg-gray-50">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <h2 className="lg:text-6xl text-5xl font-extrabold text-gray-900 text-center">How It Works</h2>
-        <div className="mt-28 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="mt-28 grid grid-cols-1 md:grid-cols-3 gap-20 lg:gap-8">
           
           {/* Step 1 */}
-          <div className="flex flex-col items-center text-center">
+          <div className="flex flex-col  items-center text-center">
             <div className="flex-shrink-0">
               <div className="flex items-center justify-center h-16 w-16 rounded-md bg-indigo-500 text-white">
                 <svg className="h-8 w-8 lg:mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

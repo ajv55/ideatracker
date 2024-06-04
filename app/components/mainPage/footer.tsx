@@ -5,13 +5,13 @@ export default function Footer() {
   return (
     <footer className=" bg-gradient-to-tr from-slate-950 via-slate-800 to-slate-950 text-white w-full py-10">
     <div className="w-full px-4">
-      <div className="flex flex-col md:flex-row justify-between items-center">
+      <div className="flex flex-col  lg:flex-row justify-between items-center">
         <div className="mb-4 md:mb-0">
-          <Link className="text-xl font-bold" href="/">
+          <Link className="lg:text-xl text-2xl font-bold" href="/">
             IdeaTracker+
           </Link>
         </div>
-        <div className="flex flex-col md:flex-row md:gap-8 mb-4 md:mb-0">
+        <div className="flex lg:flex-col  md:flex-row md:gap-8 gap-3 mb-4 md:mb-0">
           <Link className="hover:underline"  href="#features">Features</Link>
           <Link className="hover:underline" href="#how-it-works">How It Works</Link>
           <Link className="hover:underline" href="#testimonials">Testimonials</Link>

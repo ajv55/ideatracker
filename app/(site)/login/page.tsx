@@ -43,7 +43,7 @@ export default function Page() {
   return (
     <div className="w-full h-screen bg-gradient-to-br flex flex-col justify-start items-center from-slate-950 via-slate-800 to-slate-950 ">
       <Link className='text-xl hover:underline hover:underline-offset-[4px] p-2 lg:mb-20 mb-10 w-full self-end text-white' href='/'>Home</Link>
-      <div className="w-[64%] px-4">
+      <div className="lg:w-[64%] w-full px-4">
         <h2 className="text-7xl text-white tracking-wider font-medium text-center mb-8">Login</h2>
         <form onSubmit={handleSubmit} className="max-w-xl mx-auto flex justify-center items-center flex-col bg-white h-[26rem] p-8 shadow-lg rounded-lg">
           <div className="mb-6 w-full">
@@ -81,7 +81,7 @@ export default function Page() {
             </button>
           </div>
           <div>
-            <p className="text-xl mt-5 tracking-wide">Don&#39;t have an account? <Link className="hover:underline underline-offset-4 lg:text-2xl text-lg text-sky-500" href={'/register'}>Sign up now!</Link></p>
+            <p className="lg:text-xl text-md mt-5 tracking-wide">Don&#39;t have an account? <Link className="hover:underline underline-offset-4 lg:text-2xl text-md text-sky-500" href={'/register'}>Sign up now!</Link></p>
           </div>
         </form>
 
