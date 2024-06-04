@@ -5,7 +5,7 @@ import React from 'react'
 
 export default function Page() {
   return (
-    <div className='w-full h-screen flex justify-start items-start overflow-scroll'>
+    <div className='w-full h-screen flex lg:flex-row flex-col justify-start items-start overflow-scroll'>
       {/* <IdeaChart /> */}
       <IdeasByStatus />
       <IdeaCategoryChart />
