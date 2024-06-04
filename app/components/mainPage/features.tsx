@@ -7,9 +7,9 @@ import { FaLayerGroup } from "react-icons/fa";
 export default function Features() {
   return (
     <section id="features" className="py-20">
-        <div className="container mx-auto  text-center">
+        <div className="container mx-auto w-full   text-center">
           <h2 className="text-7xl font-bold tracking-wider mb-14">Features</h2>
-          <div className="flex items-center justify-center gap-10">
+          <div className="flex lg:flex-row flex-col items-center justify-center gap-10">
             <div className="w-full lg:w-[36%] p-4">
               <div className="bg-white shadow-lg shadow-zinc-900 rounded-lg p-6 flex flex-col justify-center items-center">
                 <Image src={Idea} alt='idea image' width={80} height={80}></Image>

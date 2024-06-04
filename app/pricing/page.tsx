@@ -5,6 +5,11 @@ import { motion } from 'framer-motion';
 import PricingHeader from '../components/pricingComponent/pricingHeader';
 import Footer from '../components/mainPage/footer';
 import Hero from '../components/pricingComponent/hero';
+import Info from '../components/pricingComponent/info';
+import Link from 'next/link';
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import getStripe from '../utils/getStripe';
 
 const pricingPlans = [
   {
@@ -12,37 +17,50 @@ const pricingPlans = [
     price: '$5',
     credits: 5,
     buttonText: 'Buy Now',
+    paymentLink: 'https://buy.stripe.com/test_9AQ3dC5C96dq168eUW',
   },
   {
     title: '10 Credits',
     price: '$9',
     credits: 10,
     buttonText: 'Buy Now',
+    paymentLink: 'https://buy.stripe.com/test_4gw6pO1lT6dqg1228b',
   },
   {
     title: '20 Credits',
     price: '$17',
     credits: 20,
     buttonText: 'Buy Now',
+    paymentLink: 'https://buy.stripe.com/test_8wM15u3u131edSUdQU',
   },
   {
     title: '50 Credits',
     price: '$40',
     credits: 50,
     buttonText: 'Buy Now',
+    paymentLink: 'https://buy.stripe.com/test_9AQ5lK6Gd45i7uwcMR',
   },
 ];
 
 const Pricing = () => {
-  const handlePurchase = (credits: number) => {
-    console.log(`Purchasing ${credits} credits...`);
-    // Add your purchase logic here
+
+  const router = useRouter();
+
+  const handlePurchase = async (credits: number) => {
+     await axios.post('/api/testApi', { credits }).then((res: any) => {
+      console.log(res?.data?.url)
+      if(res.status === 201) {
+        router.push(res?.data?.url)
+      }
+    });
   };
+
+  
 
   return (
     <div>
       
-        <PricingHeader />
+      <PricingHeader />
       
       <Hero />
       <main className="w-full px-6 py-12">
@@ -68,8 +86,7 @@ const Pricing = () => {
                     {plan.credits} Credits
                   </li>
                 </ul>
-                <button
-                  onClick={() => handlePurchase(plan.credits)}
+                <button onClick={() => handlePurchase(plan.credits)}
                   className=" bg-gradient-to-tl from-slate-950 via-teal-800 to-slate-950 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
                 >
                   {plan.buttonText}
@@ -79,6 +96,7 @@ const Pricing = () => {
           ))}
         </div>
       </main>
+      <Info />
       <Footer />
     </div>
   );

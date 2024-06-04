@@ -6,7 +6,7 @@ export default function How() {
     {/* Other sections */}
     <section id="how-it-works" className="py-16 bg-gray-50">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
-        <h2 className="text-6xl font-extrabold text-gray-900 text-center">How It Works</h2>
+        <h2 className="lg:text-6xl text-5xl font-extrabold text-gray-900 text-center">How It Works</h2>
         <div className="mt-28 grid grid-cols-1 md:grid-cols-3 gap-8">
           
           {/* Step 1 */}
