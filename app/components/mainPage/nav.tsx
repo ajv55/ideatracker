@@ -28,8 +28,8 @@ export default function Nav() {
                             <Link onClick={() => setIsOpen(!isOpen)} className="text-2xl font-semibold text-white  hover:text-teal-500" href="/">
                             Home
                             </Link>
-                            <Link onClick={() => setIsOpen(false)} className="text-2xl font-semibold text-white  hover:text-teal-500" href="#how-it-works">
-                            How It Work
+                            <Link onClick={() => setIsOpen(false)} className="text-2xl font-semibold text-white  hover:text-teal-500" href="/about">
+                            About
                             </Link>
                             <Link onClick={() => setIsOpen(false)} className="text-2xl font-semibold text-white  hover:text-teal-500" href="/pricing">
                             Pricing
@@ -59,9 +59,9 @@ export default function Nav() {
       </AnimatePresence>
 
         <h1 className="lg:text-4xl text-3xl text-white tracking-wide font-bold">IdeaTracker+</h1>
-        <ul className="lg:flex hidden space-x-8">
-          <li><Link className="text-gray-100 text-xl" href="#features">Features</Link></li>
-          <li><Link className="text-gray-100 text-xl" href="#how-it-works">How It Works</Link></li>
+        <ul className="lg:flex hidden justify-evenly items-center space-x-8">
+          <li><Link className="text-gray-100 text-xl" href="/">Home</Link></li>
+          <li><Link className="text-gray-100 text-xl" href="/about">About</Link></li>
           <li><Link className="text-gray-100 text-xl" href="#contact">Contact</Link></li>
           {session && <li><Link className="text-gray-100 text-xl" href="/dashboard">Dashboard</Link></li>}
         </ul>

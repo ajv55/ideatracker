@@ -34,6 +34,7 @@ const IdeaList: React.FC = () => {
   const dispatch = useDispatch();
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [editId, setEditId] = useState(0);
+  const [deleteId, setDeleteId] = useState(0);
   
  
   const handleFilterChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -44,13 +45,15 @@ const IdeaList: React.FC = () => {
     setSortKey(e.target.value as 'title' | 'dateCreated');
   };
 
+
+  console.log(deleteId)
   
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async () => {
     //handle delete from the backend
     try {
       
-      await axios.delete(`/api/deleteIdea?ideaId=${id}`).then((res) => {
+      await axios.delete(`/api/deleteIdea?ideaId=${deleteId}`).then((res) => {
         if(res.status === 201) {
           toast.success(`You've deleted the idea`)
           getAllIdeas();
@@ -122,7 +125,7 @@ const IdeaList: React.FC = () => {
           const theIdea: any = editId === idea.id && idea
           return <li key={idea.id} className="bg-gray-50 p-4 rounded-lg shadow-sm flex flex-wrap gap-5 justify-between items-center">
             <AnimatePresence>
-              {deleteModal && <DeleteModal onDelete={() => handleDelete(idea.id)} onClose={() => setDeleteModal(false)} />}
+              {deleteModal && <DeleteModal onDelete={handleDelete} onClose={() => setDeleteModal(false)} />}
               {editModalOpen && <EditModal id={editId} onClose={() => dispatch(setIsEditOpen(false))} />}
               </AnimatePresence>
             <div>
@@ -148,7 +151,7 @@ const IdeaList: React.FC = () => {
               </button>
               <button
                 className="bg-red-500 text-white px-2 py-1 rounded-lg"
-                onClick={() => setDeleteModal(true)}
+                onClick={() => {setDeleteModal(true), setDeleteId(idea?.id)}}
               >
                 Delete
               </button>

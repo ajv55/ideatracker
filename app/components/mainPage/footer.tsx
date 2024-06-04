@@ -11,10 +11,10 @@ export default function Footer() {
             IdeaTracker+
           </Link>
         </div>
-        <div className="flex lg:flex-col  md:flex-row md:gap-8 gap-3 mb-4 md:mb-0">
+        <div className="flex flex-row md:gap-8 gap-3 mb-4 md:mb-0">
           <Link className="hover:underline"  href="#features">Features</Link>
-          <Link className="hover:underline" href="#how-it-works">How It Works</Link>
-          <Link className="hover:underline" href="#testimonials">Testimonials</Link>
+          <Link className="hover:underline" href="/about">About</Link>
+          <Link className="hover:underline" href="/pricing">Pricing</Link>
           <Link className="hover:underline" href="#contact">Contact</Link>
         </div>
         <div className="flex space-x-4">
