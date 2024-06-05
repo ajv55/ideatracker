@@ -63,9 +63,10 @@ export default function PricingHeader() {
           <li><Link className="text-gray-100 text-xl" href="/">Features</Link></li>
           <li><Link className="text-gray-100 text-xl" href="/">How It Works</Link></li>
           <li><Link className="text-gray-100 text-xl" href="/">Contact</Link></li>
+          <li><Link className="text-gray-100 text-xl" href="/pricing">Pricing</Link></li>
           {session && <li><Link className="text-gray-100 text-xl" href="/dashboard">Dashboard</Link></li>}
         </ul>
-        <HiMenuAlt1 onClick={() => setIsOpen(!isOpen)} size={35} color='white' />
+        <HiMenuAlt1 className='lg:hidden' onClick={() => setIsOpen(!isOpen)} size={35} color='white' />
         <Signing />
       </nav>
   )
