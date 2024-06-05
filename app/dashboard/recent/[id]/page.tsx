@@ -125,7 +125,7 @@ export default function Page() {
         </div>
       </div>
 
-      <div className='flex border-2 lg:flex-row flex-col w-full justify-between items-start'>
+      <div className='flex lg:flex-row flex-col w-full justify-between items-start'>
       <div className="bg-white w-full md:w-2/3 lg:w-[50%] p-8 rounded-lg shadow-lg mb-8">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-2xl font-semibold">Milestones</h3>

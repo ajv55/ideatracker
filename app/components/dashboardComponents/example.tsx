@@ -5,6 +5,7 @@ import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
 import {format} from 'date-fns';
 import BarSkeleton from '../skeleton/barSkeleton';
+import SkeletonTable from '../skeleton/tableSkeleton';
 
 interface Idea {
   id: string;
@@ -62,13 +63,16 @@ const IdeasByStatus: React.FC = () => {
   return (
     <div className="lg:w-[55%] w-full relative lg:p-6 p-2">
       {isLoading && <BarSkeleton /> }
-        {ideas.length === 0 && <h1 className=' text-5xl absolute flex justify-center items-center z-30 bg-slate-100 rounded-2xl text-center text-balance shadow-lg shadow-zinc-900  w-[95%] h-full'>Add ideas to see analytics</h1>}
+        {ideas.length === 0 && !isLoading && <h1 className=' text-5xl absolute flex justify-center items-center z-30 bg-slate-100 rounded-2xl text-center text-balance shadow-lg shadow-zinc-900  w-[95%] h-full'>Add ideas to see analytics</h1>}
       <h2 className="text-3xl font-semibold mb-6">Ideas by Status</h2>
-      <div className="bg-white p-4 w-full lg:w-full flex justify-center items-center h-[15rem] lg:h-[25rem] rounded-lg shadow-lg shadow-zinc-900 mb-6">
+
+      {!isLoading && <div className="bg-white p-4 w-full lg:w-full flex justify-center items-center h-[15rem] lg:h-[25rem] rounded-lg shadow-lg shadow-zinc-900 mb-6">
         <Bar data={barData} />
-      </div>
+      </div>}
+
       <div className="w-full border  ">
-        <div className="bg-white w-full p-6 rounded-lg overflow-x-scroll  shadow-zinc-900  shadow-lg">
+        {isLoading && <SkeletonTable />}
+        {!isLoading && <div className="bg-white w-full p-6 rounded-lg overflow-x-scroll  shadow-zinc-900  shadow-lg">
           <h3 className="text-2xl font-semibold mb-4">Detailed Status Table</h3>
           <table className="w-full overflow-scroll text-sm text-left rtl:text-right text-teal-500 dark:text-zinc-900">
             <thead className='text-md text-gray-300 uppercase bg-gradient-to-bl from-slate-950 via-slate-800 to-slate-950  dark:text-white'>
@@ -90,8 +94,12 @@ const IdeasByStatus: React.FC = () => {
               ))}
             </tbody>
           </table>
-        </div>
+        </div>}
+
       </div>
+
+
+      
     </div>
   );
 };
