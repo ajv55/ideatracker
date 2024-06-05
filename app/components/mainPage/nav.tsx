@@ -69,6 +69,7 @@ export default function Nav() {
           <li><Link className="text-gray-100 text-xl" href="/">Home</Link></li>
           <li><Link className="text-gray-100 text-xl" href="/about">About</Link></li>
           <li><Link className="text-gray-100 text-xl" href="#contact">Contact</Link></li>
+          <li><Link className="text-gray-100 text-xl" href="/pricing">Pricing</Link></li>
           {session && <li><Link className="text-gray-100 text-xl" href="/dashboard">Dashboard</Link></li>}
         </ul>
         <HiMenuAlt1 className='lg:hidden' onClick={() => setIsOpen(!isOpen)} size={35} color='white' />
