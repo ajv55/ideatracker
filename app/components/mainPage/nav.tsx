@@ -1,6 +1,6 @@
 'use client';
 import Link from 'next/link'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Signing from './signing'
 import { useSession } from 'next-auth/react';
 import { HiMenuAlt1 } from "react-icons/hi";
@@ -12,6 +12,12 @@ export default function Nav() {
   const userName = session?.user?.name;
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if(session?.user) {
+      return setIsLoggedIn(true)
+    }
+  }, [])
 
   return (
     <nav className=" absolute   w-full top-0 left-0 p-3 flex justify-between items-center py-6">

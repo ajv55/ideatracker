@@ -1,11 +1,12 @@
 'use client';
 import Link from 'next/link'
-import React, { ReactNode, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { IoMdAnalytics, IoMdHome } from 'react-icons/io'
 import { motion, AnimatePresence } from 'framer-motion';
 import { PiClockCounterClockwiseFill } from "react-icons/pi";
 import { MdDashboard } from "react-icons/md";
 import { useSession } from 'next-auth/react';
+import { MdOutlineSettingsSuggest } from "react-icons/md";
 
 export default function Layout({children}: {children: ReactNode}) {
 
@@ -15,6 +16,12 @@ export default function Layout({children}: {children: ReactNode}) {
   const {data: session} = useSession();
 
   const userName = session?.user?.name;
+
+  useEffect(() => {
+    if(session?.user) {
+      return setIsLoggedIn(true)
+    }
+  }, [])
 
   return (
     <div  className='flex justify-start flex-col lg:flex-row items-start'>
@@ -36,9 +43,9 @@ export default function Layout({children}: {children: ReactNode}) {
 
                         {isLoggedIn && (
                           <div className="flex flex-col items-start p-2 space-y-4">
-                            <span className="text-2xl text-white ">Welcome, {userName?.toUpperCase()}</span>
-                            <Link href='/' className="text-2xl text-white hover:text-teal-500">Home</Link>
-                            <Link href='/signOut' className="text-2xl text-white hover:text-teal-500">Logout</Link>
+                            <span className="text-xl text-white ">Welcome, {userName?.toUpperCase()}</span>
+                            <Link href='/' className="text-xl text-white hover:text-teal-500">Home</Link>
+                            <Link href='/signOut' className="text-xl text-white hover:text-teal-500">Logout</Link>
                           </div>
                         )}
                         
@@ -54,6 +61,7 @@ export default function Layout({children}: {children: ReactNode}) {
             <Link className='text-white w-full   text-2xl flex justify-start items-center gap-2'  href='/dashboard'><IoMdHome size={30} color='white'/>Overview</Link>
             <Link className='text-white  w-full text-2xl flex justify-start items-center gap-2'  href='/dashboard/tracking'><IoMdAnalytics size={30} color='white'/>Tracking</Link>
             <Link className='text-white  w-full text-2xl flex justify-start items-center gap-2'  href='/dashboard/recent'><PiClockCounterClockwiseFill size={35} color='white'/>Recent</Link>
+            <Link className='text-white  w-full text-2xl flex justify-start items-center gap-2'  href='/dashboard/setting'><MdOutlineSettingsSuggest size={35} color='white'/>Setting</Link>
         </motion.nav>
         <div className='self-end md:hidden  flex justify-between items-center w-full'>
           <h1 className='text-2xl font-medium tracking-wide p-2'>IdeaTracker+</h1>

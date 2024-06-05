@@ -11,6 +11,7 @@ declare module "next-auth" {
       name: string,
       email: string,
       credit: number,
+      password: string,
     }
   }
 }

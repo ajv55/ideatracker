@@ -57,6 +57,14 @@ export const authOptions: NextAuthOptions = {
                 console.log('Updating token credit:', session.credit);
                 token.credit = session.credit;
             }
+            if (trigger === 'update' && session?.name) {
+                console.log('Updating name:', session.name);
+                token.name = session.name;
+            }
+            if (trigger === 'update' && session?.email) {
+                console.log('Updating name:', session.email);
+                token.email = session.email;
+            }
 
            // passing in user id, calories, height, weight, age, and gender to token
            if(user) {
@@ -64,7 +72,10 @@ export const authOptions: NextAuthOptions = {
             return {
                 ...token, 
                 id: user?.id,
-                credit: user?.credit
+                credit: user?.credit,
+                password: user?.hashedPassword,
+                name: user?.name,
+                email: user?.email
             }
         }
 
@@ -88,7 +99,10 @@ export const authOptions: NextAuthOptions = {
                 user: {
                     ...session.user,
                    id: token?.id,
-                   credit: token?.credit
+                   credit: token?.credit,
+                   password: token?.hashedPassword,
+                   name: token?.name,
+                   email: token?.email
                 }
             };
 
