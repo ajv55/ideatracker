@@ -91,7 +91,7 @@ const IdeaCategoryChart: React.FC = () => {
     <div className=" bg-gradient-to-bl from-slate-950 via-slate-700 to-slate-950 relative border lg:w-[43%] w-full  h-[40rem] flex flex-col justify-start items-start p-5 rounded-lg shadow">
       {isLoading && <PieSkeleton /> }
       <h2 className="text-4xl text-white  font-semibold mb-4">Category Distribution</h2>
-      {/* {ideas.length === 0 && !isLoading && <h1 className=' text-5xl absolute flex justify-center items-center z-30 bg-slate-100 rounded-2xl text-center text-balance shadow-lg shadow-zinc-900  w-full h-full'>Add ideas to see analytics</h1>} */}
+      {ideas.length === 0 && !isLoading && <h1 className=' text-5xl absolute flex top-0 left-0 justify-center items-center z-30 bg-slate-100 rounded-xl text-center text-balance shadow-lg shadow-zinc-900  w-full h-full'>Add ideas to see analytics</h1>}
       <Pie className='p-12  lg:p-3' options={options} data={data} />
     </div>
   );

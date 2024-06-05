@@ -83,6 +83,10 @@ export default function Page() {
           <div>
             <p className="lg:text-xl text-md mt-5 tracking-wide">Don&#39;t have an account? <Link className="hover:underline underline-offset-4 lg:text-2xl text-md text-sky-500" href={'/register'}>Sign up now!</Link></p>
           </div>
+          <div className="flex text-xs justify-center mt-4 items-center gap-5">
+              <p>Email: test@test.com</p>
+              <p>Password: 123456</p>
+            </div>
         </form>
 
       </div>
