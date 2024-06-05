@@ -39,6 +39,7 @@ export default function Layout({children}: {children: ReactNode}) {
                             <Link onClick={() => setIsOpen(!isOpen)} className="text-2xl w-full flex justify-start items-center gap-4 font-semibold text-white  hover:text-teal-500" href="/dashboard"><IoMdHome size={35} color='white'/>Overview</Link>
                             <Link onClick={() => setIsOpen(false)} className="text-2xl w-full flex justify-start items-center gap-4 font-semibold text-white  hover:text-teal-500" href="/dashboard/tracking"><IoMdAnalytics size={33} color='white'/>Tracking</Link>
                             <Link onClick={() => setIsOpen(false)} className="text-2xl w-full flex justify-start items-center gap-4 font-semibold text-white  hover:text-teal-500" href="/dashboard/recent"><PiClockCounterClockwiseFill size={35} color='white'/>Recent</Link>
+                            <Link onClick={() => setIsOpen(false)} className='text-white  w-full text-2xl flex justify-start items-center gap-2'  href='/dashboard/setting'><MdOutlineSettingsSuggest size={35} color='white'/>Setting</Link>
                         </nav>
 
                         {isLoggedIn && (
