@@ -16,7 +16,7 @@ export default function Header() {
         </div>
       </section>
 
-      <div style={{backgroundImage: 'linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url("/idea.jpeg")'}} className="w-[50%] h-[100%] hidden lg:block  bg-cover bg-center  mt-10 lg:mt-0">
+      <div data-testid="background-image" style={{backgroundImage: 'linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url("/idea.jpeg")'}} className="w-[50%] h-[100%] hidden lg:block  bg-cover bg-center  mt-10 lg:mt-0">
           
       </div>
     </header>

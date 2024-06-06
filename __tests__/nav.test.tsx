@@ -1,8 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent, within } from '@testing-library/react';
-import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom';
-import { SessionProvider, useSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import Nav from '@/app/components/mainPage/nav';
 
 // Mock the useSession hook from next-auth
@@ -42,11 +41,8 @@ describe('Nav', () => {
   });
 
   test('toggles the mobile menu when the menu icon is clicked', async () => {
-    // const user = userEvent.setup()
     render(<Nav />);
     
-    // Click the menu icon
-    // await user.click(screen.getByTestId('menu-icon'))
 
     // Click the menu icon
     fireEvent.click(screen.getByTestId('menu-icon'));
